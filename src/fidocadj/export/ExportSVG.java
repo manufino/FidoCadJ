@@ -213,19 +213,21 @@ public final class ExportSVG implements ExportInterface, TextInterface
             HANDLED
         */
 
-        out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
+        setFontSize(sizex*12.0/7.0+.5);
+        double yscale;
+        if(sizey/sizex == 10/7){
+            yscale = 1.0;
+        } else {
+            yscale=(double)sizey/(double)sizex*22.0/40.0;
+        }
+        double xscale = isMirrored ? -1 : 1;
 
-        double xscale = sizex/22.0/sizey*38.0;
-        setFontSize(sizey);
+        out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
         if(orientation !=0) {
             double alpha= isMirrored?orientation:-orientation;
-            out.write(" rotate("+alpha+") ");
+            out.write(" rotate("+alpha+")");
         }
-        if(isMirrored) {
-            xscale=-xscale;
-        }
-        out.write(" scale("+xscale+",1) ");
-
+        out.write(" scale("+xscale+","+yscale+")");
         out.write("\">");
         textx=x;
         texty=y;

@@ -114,6 +114,19 @@ assert_contains \
     svg_fixes/out_font_fallback.svg \
     'font-family="Courier New, monospace"'
 
+# --- Fix 7: font size based on sizex, with yscale ---
+echo "Fix 7: font size and vertical scaling"
+java -jar $JAR -n -c r2 svg svg_fixes/out_font_size.svg \
+    svg_fixes/test_font_size.fcd 2>/dev/null
+assert_not_contains \
+    "font size is not based on sizey" \
+    svg_fixes/out_font_size.svg \
+    'font-size="14.0"'
+assert_not_contains \
+    "transform uses yscale, not old xscale approach" \
+    svg_fixes/out_font_size.svg \
+    'scale(1.7'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
