@@ -709,7 +709,18 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     public void export(ExportInterface exp, MapCoordinates cs)
             throws IOException
     {
-        int resultingO = o - cs.getOrientation() * 90;
+        // Match the orientation/mirror logic from the draw() method.
+        int resultingO = o;
+        boolean resultingMirror = false;
+        if ((sty & TEXT_MIRRORED) != 0) {
+            resultingMirror = !resultingMirror;
+            resultingO = -resultingO;
+        }
+        resultingO -= cs.getOrientation() * 90;
+        if (cs.getMirror()) {
+            resultingMirror = !resultingMirror;
+            resultingO = -resultingO;
+        }
 
         exp.exportAdvText(cs.mapX(virtualPoint[0].x, virtualPoint[0].y),
                 cs.mapY(virtualPoint[0].x, virtualPoint[0].y),
@@ -719,7 +730,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                     cs.mapYr(siy, siy) - cs.mapYr(0, 0))),
                 fontName,
                 (sty & TEXT_BOLD) != 0,
-                (sty & TEXT_MIRRORED) != 0,
+                resultingMirror,
                 (sty & TEXT_ITALIC) != 0,
                 resultingO, getLayer(), txt);
     }

@@ -160,6 +160,17 @@ assert_contains \
     svg_fixes/out_size_rounding.svg \
     'font-size="[0-9]'
 
+# --- Fix 11: text mirror/orientation matching draw() ---
+echo "Fix 11: text mirror/orientation in export"
+java -jar $JAR -n -c r2 svg svg_fixes/out_macro_mirror.svg \
+    svg_fixes/test_macro_mirror.fcd 2>/dev/null
+# Style 4 = TEXT_MIRRORED. The export should pass the combined
+# mirror flag (text mirror XOR coord mirror) like draw() does.
+assert_contains \
+    "mirrored text (style 4) has scale(-1" \
+    svg_fixes/out_macro_mirror.svg \
+    'scale(-1'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
