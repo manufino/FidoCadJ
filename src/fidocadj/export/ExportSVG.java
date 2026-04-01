@@ -706,11 +706,15 @@ public final class ExportSVG implements ExportInterface, TextInterface
 
         }
 
+        double rw = Math.abs(x2-x1);
+        double rh = Math.abs(y2-y1);
+        if (rw == 0) { rw = 0.5; }
+        if (rh == 0) { rh = 0.5; }
         out.write("<rect x=\""+cLe(Math.min(x1,x2))+"\" y=\""+
                   cLe(Math.min(y1,y2))+
                   "\" rx=\"0\" ry=\"0\" "+
-                  "width=\""+cLe(Math.abs(x2-x1))+"\" height=\""+
-                  cLe(Math.abs(y2-y1))+"\" ");
+                  "width=\""+cLe(rw)+"\" height=\""+
+                  cLe(rh)+"\" ");
         checkColorAndWidth(fillPattern, dashStyle);
 
     }

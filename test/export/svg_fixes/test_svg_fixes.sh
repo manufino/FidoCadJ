@@ -201,6 +201,15 @@ else
     printf "  \033[1m\x1b[31mFAIL\033[0m superscript should produce multiple text elements (got $sup_count)\n"
 fi
 
+# --- Fix 14: zero-height rectangles visible ---
+echo "Fix 14: zero-height rectangles"
+java -jar $JAR -n -c r2 svg svg_fixes/out_zero_height_rect.svg \
+    svg_fixes/test_zero_height_rect.fcd 2>/dev/null
+assert_not_contains \
+    "no zero-height rectangles" \
+    svg_fixes/out_zero_height_rect.svg \
+    'height="0.0"'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
