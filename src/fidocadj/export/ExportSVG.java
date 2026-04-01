@@ -763,7 +763,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
             double sw = strokeWidth > 0 ? strokeWidth : 0.5;
             out.write(";stroke-width:"+sw+
                   ";stroke-linejoin:round;stroke-linecap:round"+
-                  ";fill-rule: nonzero;\"");
+                  ";fill-rule: evenodd;\"");
             if (layerAlpha < 1.0f) {
                 out.write(" opacity=\""+layerAlpha+"\"");
             }
