@@ -83,6 +83,15 @@ assert_not_contains \
     svg_fixes/out_fill.svg \
     'fill-rule: evenodd'
 
+# --- Fix 4: layer opacity ---
+echo "Fix 4: layer opacity"
+java -jar $JAR -n -c r2 svg svg_fixes/out_opacity.svg \
+    svg_fixes/test_opacity.fcd 2>/dev/null
+assert_contains \
+    "opacity attribute present for semi-transparent layer" \
+    svg_fixes/out_opacity.svg \
+    'opacity="0.3"'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then

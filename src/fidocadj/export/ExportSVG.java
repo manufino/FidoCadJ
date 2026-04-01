@@ -48,6 +48,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     private List layerV;
 
     private ColorInterface c;       // Current colour (used in advText export)
+    private float layerAlpha=1.0f;  // Current layer opacity
     private double strokeWidth;
     private String sDash[];
     private float dashPhase;
@@ -202,6 +203,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         this.isItalic=isItalic;
         this.isBold=isBold;
         this.fontname=fontname;
@@ -271,6 +273,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
 
         strokeWidth=sW;
 
@@ -314,6 +317,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         strokeWidth = cLe(0.33);
 
         out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
@@ -363,6 +367,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         strokeWidth=sW;
 
         double xstart=x1;
@@ -452,6 +457,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         String fillPattern="";
         strokeWidth=sW;
         if(isFilled) {
@@ -488,6 +494,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
 
         out.write("<line x1=\""+cLe(x1)+"\" y1=\""+cLe(y1)+"\" x2=\""+
             cLe(x2)+"\" y2=\""+cLe(y2)+"\" style=\"stroke:#"+
@@ -525,6 +532,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
 
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
 
         if(onlyHole) {
             // ... then, drill the hole!
@@ -603,6 +611,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         String fillPattern="";
         strokeWidth=sW;
         if(isFilled) {
@@ -679,6 +688,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
         strokeWidth=sW;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         String fillPattern="";
 
         if(isFilled) {
@@ -750,7 +760,11 @@ public final class ExportSVG implements ExportInterface, TextInterface
 
             out.write(";stroke-width:"+strokeWidth+
                   ";stroke-linejoin:round;stroke-linecap:round"+
-                  ";fill-rule: nonzero;\" " + fillPattern + "/>\n");
+                  ";fill-rule: nonzero;\"");
+            if (layerAlpha < 1.0f) {
+                out.write(" opacity=\""+layerAlpha+"\"");
+            }
+            out.write(" " + fillPattern + "/>\n");
         }
     }
 
