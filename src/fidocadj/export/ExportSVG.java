@@ -214,7 +214,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
             HANDLED
         */
 
-        setFontSize(sizex*12.0/7.0+.5);
+        setFontSize(sizex*12.0/7.0);
         gi.setFont(fontname, currentFontSize);
         baseFontAscent = gi.getFontAscent();
         double yscale;
