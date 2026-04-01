@@ -70,6 +70,19 @@ assert_contains \
     svg_fixes/out_lines.svg \
     'stroke-linecap:round'
 
+# --- Fix 3: fill-rule nonzero ---
+echo "Fix 3: fill-rule nonzero"
+java -jar $JAR -n -c r2 svg svg_fixes/out_fill.svg \
+    svg_fixes/test_fill_rule.fcd 2>/dev/null
+assert_contains \
+    "fill-rule is nonzero" \
+    svg_fixes/out_fill.svg \
+    'fill-rule: nonzero'
+assert_not_contains \
+    "fill-rule evenodd is absent" \
+    svg_fixes/out_fill.svg \
+    'fill-rule: evenodd'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
