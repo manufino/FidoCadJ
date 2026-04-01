@@ -881,7 +881,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
                 +"\" font-family=\""+
                 fontname+"\" font-size=\""+cLe(currentFontSize)+
                 "\" font-style=\""+
-                (isItalic?"italic":"")+"\" font-weigth=\""+
+                (isItalic?"italic":"")+"\" font-weight=\""+
                 (isBold?"bold":"")+"\" "+
                 "fill=\"#"+
                     convertToHex2(c.getRed())+
