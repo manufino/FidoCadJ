@@ -882,6 +882,25 @@ public final class ExportSVG implements ExportInterface, TextInterface
         return gi.getStringWidth(s);
     }
 
+    /** Map a font name to a CSS generic family fallback.
+        @param name the font name.
+        @return the generic family keyword to use as fallback.
+    */
+    private String genericFontFamily(String name)
+    {
+        String lower = name.toLowerCase();
+        if (lower.contains("courier") || lower.contains("mono")
+                || lower.contains("consolas") || lower.contains("fixed"))
+        {
+            return "monospace";
+        } else if (lower.contains("times") || lower.contains("serif")
+                || lower.contains("georgia") || lower.contains("palatino"))
+        {
+            return "serif";
+        }
+        return "sans-serif";
+    }
+
     /** Draw a string on the current graphic context.
         @param str the string to be drawn.
         @param x the x coordinate of the starting point.
@@ -895,7 +914,8 @@ public final class ExportSVG implements ExportInterface, TextInterface
             out.write("<text x=\""+(x-textx)+"\" y=\""
                 +cLe(currentFontSize+y-texty)
                 +"\" font-family=\""+
-                fontname+"\" font-size=\""+cLe(currentFontSize)+
+                fontname+", "+genericFontFamily(fontname)
+                +"\" font-size=\""+cLe(currentFontSize)+
                 "\" font-style=\""+
                 (isItalic?"italic":"")+"\" font-weight=\""+
                 (isBold?"bold":"")+"\" "+

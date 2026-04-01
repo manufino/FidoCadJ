@@ -105,6 +105,15 @@ assert_not_contains \
     svg_fixes/out_min_stroke.svg \
     'stroke-width:0"'
 
+# --- Fix 6: font CSS fallbacks ---
+echo "Fix 6: font CSS fallbacks"
+java -jar $JAR -n -c r2 svg svg_fixes/out_font_fallback.svg \
+    svg_fixes/test_font_fallback.fcd 2>/dev/null
+assert_contains \
+    "Courier New has monospace fallback" \
+    svg_fixes/out_font_fallback.svg \
+    'font-family="Courier New, monospace"'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
