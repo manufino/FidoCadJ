@@ -709,14 +709,13 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     public void export(ExportInterface exp, MapCoordinates cs)
             throws IOException
     {
-        // Match the orientation/mirror logic from the draw() method.
-        int resultingO = o;
-        boolean resultingMirror = false;
-        if ((sty & TEXT_MIRRORED) != 0) {
-            resultingMirror = !resultingMirror;
-            resultingO = -resultingO;
-        }
-        resultingO -= cs.getOrientation() * 90;
+        // Compute orientation and mirror for export.
+        // The text's own mirror flag is passed directly since the SVG
+        // exporter handles the sign flip in its rotation logic.
+        // The coordinate system mirror (from macros) needs to toggle
+        // the mirror flag and negate orientation.
+        int resultingO = o - cs.getOrientation() * 90;
+        boolean resultingMirror = (sty & TEXT_MIRRORED) != 0;
         if (cs.getMirror()) {
             resultingMirror = !resultingMirror;
             resultingO = -resultingO;

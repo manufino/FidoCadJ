@@ -170,6 +170,22 @@ assert_contains \
     svg_fixes/out_whitespace.svg \
     'xml:space="preserve"'
 
+# --- Regression: mirrored text rotation sign ---
+echo "Regression: mirrored text rotation"
+java -jar $JAR -n -c r2 svg svg_fixes/out_mirrored_rotation.svg \
+    svg_fixes/test_mirrored_rotation.fcd 2>/dev/null
+# Mirrored text (style 4) at 90 degrees should produce rotate(90)
+# (positive), because the SVG exporter uses alpha=orientation for
+# mirrored text. A regression would produce rotate(-90).
+assert_contains \
+    "mirrored 90-degree text has positive rotate(90)" \
+    svg_fixes/out_mirrored_rotation.svg \
+    'rotate(90'
+assert_not_contains \
+    "mirrored 90-degree text does not have rotate(-90)" \
+    svg_fixes/out_mirrored_rotation.svg \
+    'rotate(-90'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
