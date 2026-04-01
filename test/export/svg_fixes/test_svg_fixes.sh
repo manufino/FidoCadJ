@@ -171,6 +171,15 @@ assert_contains \
     svg_fixes/out_macro_mirror.svg \
     'scale(-1'
 
+# --- Fix 12: preserve whitespace in text ---
+echo "Fix 12: preserve whitespace in text"
+java -jar $JAR -n -c r2 svg svg_fixes/out_whitespace.svg \
+    svg_fixes/test_whitespace.fcd 2>/dev/null
+assert_contains \
+    "text element has xml:space=preserve" \
+    svg_fixes/out_whitespace.svg \
+    'xml:space="preserve"'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then

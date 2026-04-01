@@ -922,6 +922,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
                 "\" font-style=\""+
                 (isItalic?"italic":"")+"\" font-weight=\""+
                 (isBold?"bold":"")+"\" "+
+                "xml:space=\"preserve\" "+
                 "fill=\"#"+
                     convertToHex2(c.getRed())+
                     convertToHex2(c.getGreen())+
