@@ -504,7 +504,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+
                   ";stroke-linejoin:round;stroke-linecap:round"+
-                  ";stroke-width:"+(width > 0 ? width : 1)+
+                  ";stroke-width:"+(width > 0 ? width : 0.5)+
                   "\"/>\n");
     }
 

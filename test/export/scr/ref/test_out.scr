@@ -1,4 +1,4 @@
-# Created by FidoCadJ 0.24.8 by Davide Bucci
+# Created by FidoCadJ 0.24.9 gamma by Davide Bucci
 Set Wire_Bend 2; 
 Grid inch 0.25;
 Change font fixed;
@@ -85,12 +85,12 @@ Text Text R-40 (23.3 25.9);
 Text Text R-60 (23.8 25.4);
 Text Text R-80 (24.3 24.9);
 Text Text R-90 (24.8 24.4);
-Text Text MR-20 (21.8 26.4);
-Text Text MR-40 (21.3 25.9);
-Text Text MR-60 (20.8 25.4);
-Text Text MR-80 (20.3 24.9);
+Text Text MR20 (21.8 26.4);
+Text Text MR40 (21.3 25.9);
+Text Text MR60 (20.8 25.4);
+Text Text MR80 (20.3 24.9);
 Text Text MR0 (22.3 26.9);
-Text Text MR-90 (19.8 24.4);
+Text Text MR90 (19.8 24.4);
 # Circle export not fully implemented
 Circle (20.3 24.4) (1.5 1);# Circle export not fully implemented
 Circle (22.8 24.4) (1.5 1);# Circle export not fully implemented
@@ -100,9 +100,9 @@ Circle (21.8 23.4) (1 1);# Bézier export not implemented yet
 Circle (20.8 23.9) (0.5 0.5);# Circle export not fully implemented
 Circle (23.3 23.9) (0.5 0.5);Change size 0.292
 Text Text MR0 (23.3 17.4);
-Text Text MR-90 (23.3 17.4);
-Text Text MR-180 (23.3 17.4);
-Text Text MR-270 (23.3 17.4);
+Text Text MR90 (23.3 17.4);
+Text Text MR180 (23.3 17.4);
+Text Text MR270 (23.3 17.4);
 Net (17.3 17.4) (17.4389 17.3385);
 Net (17.4389 17.3385) (17.5775 17.2775);
 Net (17.5775 17.2775) (17.7153 17.2173);
