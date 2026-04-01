@@ -502,7 +502,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+
                   ";stroke-linejoin:round;stroke-linecap:round"+
-                  ";stroke-width:"+width+
+                  ";stroke-width:"+(width > 0 ? width : 1)+
                   "\"/>\n");
     }
 
@@ -758,7 +758,8 @@ public final class ExportSVG implements ExportInterface, TextInterface
                 out.write(";stroke-dashoffset: "+dashPhase);
             }
 
-            out.write(";stroke-width:"+strokeWidth+
+            double sw = strokeWidth > 0 ? strokeWidth : 0.5;
+            out.write(";stroke-width:"+sw+
                   ";stroke-linejoin:round;stroke-linecap:round"+
                   ";fill-rule: nonzero;\"");
             if (layerAlpha < 1.0f) {

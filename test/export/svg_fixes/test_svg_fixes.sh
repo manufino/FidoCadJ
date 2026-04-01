@@ -92,6 +92,19 @@ assert_contains \
     svg_fixes/out_opacity.svg \
     'opacity="0.3"'
 
+# --- Fix 5: minimum stroke width ---
+echo "Fix 5: minimum stroke width"
+java -jar $JAR -n -c r2 svg svg_fixes/out_min_stroke.svg \
+    svg_fixes/test_min_stroke.fcd 2>/dev/null
+assert_not_contains \
+    "no zero-width strokes in PCB lines" \
+    svg_fixes/out_min_stroke.svg \
+    'stroke-width:0[^.]'
+assert_not_contains \
+    "no zero-width strokes in general" \
+    svg_fixes/out_min_stroke.svg \
+    'stroke-width:0"'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
