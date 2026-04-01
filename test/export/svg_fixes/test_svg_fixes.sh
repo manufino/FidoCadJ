@@ -151,6 +151,15 @@ assert_contains \
     svg_fixes/out_filled_curve.svg \
     'fill="#'
 
+# --- Fix 10: text size rounding ---
+echo "Fix 10: text size rounding"
+java -jar $JAR -n -c r3 svg svg_fixes/out_size_rounding.svg \
+    svg_fixes/test_size_rounding.fcd 2>/dev/null
+assert_contains \
+    "small text produces valid font-size" \
+    svg_fixes/out_size_rounding.svg \
+    'font-size="[0-9]'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then

@@ -713,8 +713,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
         exp.exportAdvText(cs.mapX(virtualPoint[0].x, virtualPoint[0].y),
                 cs.mapY(virtualPoint[0].x, virtualPoint[0].y),
-                (int) Math.abs(cs.mapXr(six, six) - cs.mapXr(0, 0)),
-                (int) Math.abs(cs.mapYr(siy, siy) - cs.mapYr(0, 0)),
+                (int) Math.round(Math.abs(
+                    cs.mapXr(six, six) - cs.mapXr(0, 0))),
+                (int) Math.round(Math.abs(
+                    cs.mapYr(siy, siy) - cs.mapYr(0, 0))),
                 fontName,
                 (sty & TEXT_BOLD) != 0,
                 (sty & TEXT_MIRRORED) != 0,
