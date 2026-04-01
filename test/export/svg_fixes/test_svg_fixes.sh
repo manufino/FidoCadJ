@@ -186,6 +186,21 @@ assert_not_contains \
     svg_fixes/out_mirrored_rotation.svg \
     'rotate(-90'
 
+# --- Fix 13: consistent baseline for superscripts ---
+echo "Fix 13: superscript baseline consistency"
+java -jar $JAR -n -c r2 svg svg_fixes/out_superscript.svg \
+    svg_fixes/test_superscript.fcd 2>/dev/null
+# Superscript text should be exported as multiple text elements
+test_count=$((test_count + 1))
+sup_count=$(grep -c '<text' svg_fixes/out_superscript.svg)
+if [ "$sup_count" -ge 2 ]; then
+    pass_count=$((pass_count + 1))
+    echo "  OK   superscript produces multiple text elements ($sup_count)"
+else
+    test_fail=1
+    printf "  \033[1m\x1b[31mFAIL\033[0m superscript should produce multiple text elements (got $sup_count)\n"
+fi
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then

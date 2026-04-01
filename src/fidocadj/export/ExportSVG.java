@@ -54,6 +54,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     private float dashPhase;
     private float currentPhase=-1;
     private float currentFontSize=0;
+    private double baseFontAscent=0;  // Ascent of the base text font
     private DecoratedText dt;
     private String fontname;        // Some info about the font is stored
     private float textx;            // This is used in sub-sup scripts position
@@ -214,6 +215,8 @@ public final class ExportSVG implements ExportInterface, TextInterface
         */
 
         setFontSize(sizex*12.0/7.0+.5);
+        gi.setFont(fontname, currentFontSize);
+        baseFontAscent = gi.getFontAscent();
         double yscale;
         if(sizey/sizex == 10/7){
             yscale = 1.0;
@@ -913,9 +916,8 @@ public final class ExportSVG implements ExportInterface, TextInterface
                                 int y)
     {
         try{
-            gi.setFont(fontname, currentFontSize);
             out.write("<text x=\""+(x-textx)+"\" y=\""
-                +cLe(gi.getFontAscent()+y-texty)
+                +cLe(baseFontAscent+y-texty)
                 +"\" font-family=\""+
                 fontname+", "+genericFontFamily(fontname)
                 +"\" font-size=\""+cLe(currentFontSize)+
