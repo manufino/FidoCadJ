@@ -57,6 +57,19 @@ assert_not_contains \
     svg_fixes/out_bold.svg \
     'font-weigth='
 
+# --- Fix 2: stroke-linejoin and stroke-linecap ---
+echo "Fix 2: round line joins and caps"
+java -jar $JAR -n -c r2 svg svg_fixes/out_lines.svg \
+    svg_fixes/test_line_joins.fcd 2>/dev/null
+assert_contains \
+    "lines have stroke-linejoin:round" \
+    svg_fixes/out_lines.svg \
+    'stroke-linejoin:round'
+assert_contains \
+    "lines have stroke-linecap:round" \
+    svg_fixes/out_lines.svg \
+    'stroke-linecap:round'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then

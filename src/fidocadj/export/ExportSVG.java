@@ -749,6 +749,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
             }
 
             out.write(";stroke-width:"+strokeWidth+
+                  ";stroke-linejoin:round;stroke-linecap:round"+
                   ";fill-rule: evenodd;\" " + fillPattern + "/>\n");
         }
     }
