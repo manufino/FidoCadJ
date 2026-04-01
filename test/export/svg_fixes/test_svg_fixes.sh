@@ -138,6 +138,19 @@ assert_not_contains \
     svg_fixes/out_baseline.svg \
     'y="24.5"'
 
+# --- Fix 9: filled open curves exported as polygons ---
+echo "Fix 9: filled open curves as polygons"
+java -jar $JAR -n -c r2 svg svg_fixes/out_filled_curve.svg \
+    svg_fixes/test_filled_curve.fcd 2>/dev/null
+assert_contains \
+    "filled curve produces a polygon element" \
+    svg_fixes/out_filled_curve.svg \
+    '<polygon'
+assert_contains \
+    "filled curve has fill color" \
+    svg_fixes/out_filled_curve.svg \
+    'fill="#'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then

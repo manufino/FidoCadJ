@@ -1134,7 +1134,7 @@ public final class PrimitiveComplexCurve
         vertices[xx.length*STEPS].x=xx[xx.length-1].eval(1.0);
         vertices[xx.length*STEPS].y=yy[xx.length-1].eval(1.0);
 
-        if (isClosed) {
+        if (isClosed || isFilled) {
             exp.exportPolygon(vertices, xx.length*STEPS+1, isFilled,
                 getLayer(),
                 dashStyle, Globals.lineWidth*cs.getXMagnitude());
