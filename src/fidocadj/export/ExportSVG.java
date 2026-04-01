@@ -913,8 +913,9 @@ public final class ExportSVG implements ExportInterface, TextInterface
                                 int y)
     {
         try{
+            gi.setFont(fontname, currentFontSize);
             out.write("<text x=\""+(x-textx)+"\" y=\""
-                +cLe(currentFontSize+y-texty)
+                +cLe(gi.getFontAscent()+y-texty)
                 +"\" font-family=\""+
                 fontname+", "+genericFontFamily(fontname)
                 +"\" font-size=\""+cLe(currentFontSize)+

@@ -127,6 +127,17 @@ assert_not_contains \
     svg_fixes/out_font_size.svg \
     'scale(1.7'
 
+# --- Fix 8: text baseline uses font ascent ---
+echo "Fix 8: text baseline uses font ascent"
+java -jar $JAR -n -c r2 svg svg_fixes/out_baseline.svg \
+    svg_fixes/test_baseline.fcd 2>/dev/null
+# With sizex=10 at r2, font-size ~ 24.5. The old code sets y=font-size.
+# The fix uses ascent which is smaller. y should NOT equal font-size.
+assert_not_contains \
+    "text y is not equal to font-size (uses ascent)" \
+    svg_fixes/out_baseline.svg \
+    'y="24.5"'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
