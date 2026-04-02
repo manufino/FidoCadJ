@@ -871,7 +871,7 @@ public final class ExportPDF implements ExportInterface, TextInterface
         }
         double ratio;
 
-        if(sizey/sizex == 10/7){
+        if(Math.abs(sizey/sizex - 10.0/7.0) < 0.01){
             ratio = 1.0;
         } else {
             ratio=(double)sizey/(double)sizex*22.0/40.0;
