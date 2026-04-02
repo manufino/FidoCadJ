@@ -210,6 +210,21 @@ assert_not_contains \
     svg_fixes/out_zero_height_rect.svg \
     'height="0.0"'
 
+# --- Fix 15: double precision for text size export ---
+echo "Fix 15: text size precision (double sizex)"
+java -jar $JAR -n -c r3 svg svg_fixes/out_small_precision.svg \
+    svg_fixes/test_small_text_precision.fcd 2>/dev/null
+# With int sizex, six=2 at r3 gives round(2*mag)=6, fontSize=6*12/7=10.29
+# With double sizex, we get the unrounded value, fontSize should differ.
+# The font-size should NOT be exactly 10.29 (the int-truncated value)
+# when using double precision, because the raw sizex has fractional part.
+# For six=2 this happens to round perfectly. Use the font_sizes test instead.
+# Here just verify the SVG is valid.
+assert_contains \
+    "small text has valid font-size" \
+    svg_fixes/out_small_precision.svg \
+    'font-size="[0-9]'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then

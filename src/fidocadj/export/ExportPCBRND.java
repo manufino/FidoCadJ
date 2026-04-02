@@ -159,12 +159,12 @@ public final class ExportPCBRND implements ExportInterface
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportAdvText (int x, int y, int sizex, int sizey,
+    public void exportAdvText (int x, int y, double sizex, double sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
         throws IOException
     {
-        String line = fidoTextToPCBText(x, y, text, sizey, orientation);
+        String line = fidoTextToPCBText(x, y, text, (int)sizey, orientation);
         pushElement(line, layer); // ignore mirroring for now
         //System.out.println("# text added on layer: " + layer);
     }

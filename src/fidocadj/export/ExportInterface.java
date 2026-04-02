@@ -98,7 +98,7 @@ public interface ExportInterface
         @param text the text that should be written.
         @throws IOException if an error occurs.
     */
-    void exportAdvText (int x, int y, int sizex, int sizey,
+    void exportAdvText (int x, int y, double sizex, double sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
         throws IOException;

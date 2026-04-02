@@ -211,7 +211,7 @@ public final class ExportPGF implements ExportInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportAdvText (int x, int y, int sizex, int sizey,
+    public void exportAdvText (int x, int y, double sizex, double sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
         throws IOException
