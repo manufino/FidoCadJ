@@ -858,7 +858,7 @@ public final class ExportPDF implements ExportInterface, TextInterface
         textx=x;
         texty=y;
         if(orientation !=0) {
-            double alpha=(isMirrored?orientation:-orientation)/180.0*Math.PI;
+            double alpha=(-orientation)/180.0*Math.PI;
             outt.write("  "+Globals.roundTo(Math.cos(alpha))+" "
                 + Globals.roundTo(Math.sin(alpha))+ " "
                 + Globals.roundTo(-Math.sin(alpha))+

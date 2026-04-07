@@ -227,8 +227,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
 
         out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
         if(orientation !=0) {
-            double alpha= isMirrored?orientation:-orientation;
-            out.write(" rotate("+alpha+")");
+            out.write(" rotate("+(-orientation)+")");
         }
         out.write(" scale("+xscale+","+yscale+")");
         out.write("\">");

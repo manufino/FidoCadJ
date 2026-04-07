@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?> 
+<!DOCTYPE svg PUBLIC "-//W3C//Dtd SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/Dtd/svg11.dtd">
+<svg width="284.0" height="464.0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<!-- Created by FidoCadJ ver. 0.24.9 gamma, export filter by Davide Bucci -->
+<rect x="12.0" y="12.0" rx="0" ry="0" width="80.0" height="100.0" style="stroke:#000000;stroke-dashoffset: 0.0;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<line x1="12.0" y1="32.0" x2="92.0" y2="32.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(20.0,56.0) scale(1.0,1.0)"><text x="0.0" y="27.0" font-family="Helvetica, sans-serif" font-size="34.79" font-style="" font-weight="bold" xml:space="preserve" fill="#000000">kWh</text>
+</g>
+<polygon points="84.0,24.0 72.0,32.0 72.0,16.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="#000000"/>
+<line x1="24.0" y1="24.0" x2="72.0" y2="24.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<rect x="172.0" y="12.0" rx="0" ry="0" width="80.0" height="100.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<line x1="252.0" y1="32.0" x2="172.0" y2="32.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(244.0,56.0) scale(-1.0,1.0)"><text x="0.0" y="27.0" font-family="Helvetica, sans-serif" font-size="34.79" font-style="" font-weight="bold" xml:space="preserve" fill="#000000">kWh</text>
+</g>
+<polygon points="180.0,24.0 192.0,16.0 192.0,32.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="#000000"/>
+<line x1="240.0" y1="24.0" x2="192.0" y2="24.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<rect x="12.0" y="192.0" rx="0" ry="0" width="100.0" height="80.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<line x1="92.0" y1="192.0" x2="92.0" y2="272.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(68.0,200.0) rotate(90) scale(1.0,1.0)"><text x="0.0" y="27.0" font-family="Helvetica, sans-serif" font-size="34.79" font-style="" font-weight="bold" xml:space="preserve" fill="#000000">kWh</text>
+</g>
+<polygon points="100.0,264.0 92.0,252.0 108.0,252.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="#000000"/>
+<line x1="100.0" y1="204.0" x2="100.0" y2="252.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<rect x="152.0" y="192.0" rx="0" ry="0" width="100.0" height="80.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<line x1="172.0" y1="192.0" x2="172.0" y2="272.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(196.0,200.0) rotate(-90) scale(-1.0,1.0)"><text x="0.0" y="27.0" font-family="Helvetica, sans-serif" font-size="34.79" font-style="" font-weight="bold" xml:space="preserve" fill="#000000">kWh</text>
+</g>
+<polygon points="164.0,264.0 156.0,252.0 172.0,252.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="#000000"/>
+<line x1="164.0" y1="204.0" x2="164.0" y2="252.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<rect x="12.0" y="352.0" rx="0" ry="0" width="80.0" height="100.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<line x1="12.0" y1="432.0" x2="92.0" y2="432.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(20.0,408.0) rotate(-180) scale(-1.0,1.0)"><text x="0.0" y="27.0" font-family="Helvetica, sans-serif" font-size="34.79" font-style="" font-weight="bold" xml:space="preserve" fill="#000000">kWh</text>
+</g>
+<polygon points="84.0,440.0 72.0,448.0 72.0,432.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="#000000"/>
+<line x1="24.0" y1="440.0" x2="72.0" y2="440.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<rect x="172.0" y="352.0" rx="0" ry="0" width="100.0" height="80.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<line x1="252.0" y1="432.0" x2="252.0" y2="352.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+<g transform="translate(228.0,424.0) rotate(-270) scale(-1.0,1.0)"><text x="0.0" y="27.0" font-family="Helvetica, sans-serif" font-size="34.79" font-style="" font-weight="bold" xml:space="preserve" fill="#000000">kWh</text>
+</g>
+<polygon points="260.0,360.0 268.0,372.0 252.0,372.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="#000000"/>
+<line x1="260.0" y1="420.0" x2="260.0" y2="372.0" style="stroke:#000000;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;fill-rule: evenodd;" fill="none"/>
+</svg>

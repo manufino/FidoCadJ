@@ -225,6 +225,42 @@ assert_contains \
     svg_fixes/out_small_precision.svg \
     'font-size="[0-9]'
 
+# --- Fix 16: text inside mirrored macros ---
+echo "Fix 16: text inside mirrored macros"
+java -jar $JAR -n -f -d svg_fixes/lib -c r4 svg \
+    svg_fixes/out_macro_text_in_mirror.svg \
+    svg_fixes/test_macro_text_in_mirror.fcd 2>/dev/null
+# Text inside a mirrored macro must have scale(-1,...) to match
+# the PNG reference. Without the cs.getMirror() fix in
+# PrimitiveAdvText.export(), text gets scale(1,...) and is not
+# visually mirrored.
+# The test FCD has 6 macro instances: 2 normal + 4 mirrored.
+# We expect exactly 4 occurrences of scale(-1.
+mirror_count=$(grep -c 'scale(-1' svg_fixes/out_macro_text_in_mirror.svg)
+test_count=$((test_count + 1))
+if [ "$mirror_count" -eq 4 ]; then
+    pass_count=$((pass_count + 1))
+    echo "  OK   mirrored macros produce 4 scale(-1 text transforms"
+else
+    test_fail=1
+    printf "  \033[1m\x1b[31mFAIL\033[0m expected 4 scale(-1 transforms, got $mirror_count\n"
+fi
+# Mirrored macros at 90/270 degrees must use negative rotation
+# (rotate(-90), rotate(-270)) to match the AWT renderer's
+# scale-then-rotate order. Positive rotation produces backward text.
+assert_contains \
+    "90-degree mirrored macro text has rotate(-90" \
+    svg_fixes/out_macro_text_in_mirror.svg \
+    'rotate(-90'
+assert_contains \
+    "270-degree mirrored macro text has rotate(-270" \
+    svg_fixes/out_macro_text_in_mirror.svg \
+    'rotate(-270'
+assert_not_contains \
+    "no positive rotate(90 in mirrored macro text" \
+    svg_fixes/out_macro_text_in_mirror.svg \
+    'rotate(90\.'
+
 echo ""
 echo "Results: $pass_count/$test_count passed"
 if test $test_fail != 0; then
