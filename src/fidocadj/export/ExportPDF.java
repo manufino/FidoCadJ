@@ -797,7 +797,7 @@ public final class ExportPDF implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportAdvText (int x, int y, int sizex, int sizey,
+    public void exportAdvText (int x, int y, double sizex, double sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String textT)
         throws IOException
@@ -871,7 +871,7 @@ public final class ExportPDF implements ExportInterface, TextInterface
         }
         double ratio;
 
-        if(sizey/sizex == 10/7){
+        if((int)(sizey/sizex) == 10/7){
             ratio = 1.0;
         } else {
             ratio=(double)sizey/(double)sizex*22.0/40.0;

@@ -48,11 +48,13 @@ public final class ExportSVG implements ExportInterface, TextInterface
     private List layerV;
 
     private ColorInterface c;       // Current colour (used in advText export)
+    private float layerAlpha=1.0f;  // Current layer opacity
     private double strokeWidth;
     private String sDash[];
     private float dashPhase;
     private float currentPhase=-1;
     private float currentFontSize=0;
+    private double baseFontAscent=0;  // Ascent of the base text font
     private DecoratedText dt;
     private String fontname;        // Some info about the font is stored
     private float textx;            // This is used in sub-sup scripts position
@@ -195,13 +197,14 @@ public final class ExportSVG implements ExportInterface, TextInterface
         @throws IOException if a disaster happens, i.e. a file can not be
             accessed.
     */
-    public void exportAdvText (int x, int y, int sizex, int sizey,
+    public void exportAdvText (int x, int y, double sizex, double sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
         throws IOException
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         this.isItalic=isItalic;
         this.isBold=isBold;
         this.fontname=fontname;
@@ -211,19 +214,23 @@ public final class ExportSVG implements ExportInterface, TextInterface
             HANDLED
         */
 
-        out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
+        setFontSize(sizex*12.0/7.0+.5);
+        gi.setFont(fontname, currentFontSize);
+        baseFontAscent = gi.getFontAscent();
+        double yscale;
+        if((int)(sizey/sizex) == 10/7){
+            yscale = 1.0;
+        } else {
+            yscale=(double)sizey/(double)sizex*22.0/40.0;
+        }
+        double xscale = isMirrored ? -1 : 1;
 
-        double xscale = sizex/22.0/sizey*38.0;
-        setFontSize(sizey);
+        out.write("<g transform=\"translate("+cLe(x)+","+cLe(y)+")");
         if(orientation !=0) {
             double alpha= isMirrored?orientation:-orientation;
-            out.write(" rotate("+alpha+") ");
+            out.write(" rotate("+alpha+")");
         }
-        if(isMirrored) {
-            xscale=-xscale;
-        }
-        out.write(" scale("+xscale+",1) ");
-
+        out.write(" scale("+xscale+","+yscale+")");
         out.write("\">");
         textx=x;
         texty=y;
@@ -271,6 +278,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
 
         strokeWidth=sW;
 
@@ -314,6 +322,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         strokeWidth = cLe(0.33);
 
         out.write("<circle cx=\""+cLe(x)+"\" cy=\""+cLe(y)+"\""+
@@ -363,6 +372,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         strokeWidth=sW;
 
         double xstart=x1;
@@ -452,6 +462,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         String fillPattern="";
         strokeWidth=sW;
         if(isFilled) {
@@ -488,6 +499,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
 
         out.write("<line x1=\""+cLe(x1)+"\" y1=\""+cLe(y1)+"\" x2=\""+
             cLe(x2)+"\" y2=\""+cLe(y2)+"\" style=\"stroke:#"+
@@ -495,7 +507,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
                   convertToHex2(c.getGreen())+
                   convertToHex2(c.getBlue())+
                   ";stroke-linejoin:round;stroke-linecap:round"+
-                  ";stroke-width:"+width+
+                  ";stroke-width:"+(width > 0 ? width : 0.5)+
                   "\"/>\n");
     }
 
@@ -525,6 +537,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
 
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
 
         if(onlyHole) {
             // ... then, drill the hole!
@@ -603,6 +616,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         String fillPattern="";
         strokeWidth=sW;
         if(isFilled) {
@@ -679,6 +693,7 @@ public final class ExportSVG implements ExportInterface, TextInterface
         strokeWidth=sW;
         LayerDesc l=(LayerDesc)layerV.get(layer);
         c=l.getColor();
+        layerAlpha=l.getAlpha();
         String fillPattern="";
 
         if(isFilled) {
@@ -691,11 +706,15 @@ public final class ExportSVG implements ExportInterface, TextInterface
 
         }
 
+        double rw = Math.abs(x2-x1);
+        double rh = Math.abs(y2-y1);
+        if (rw == 0) { rw = 0.5; }
+        if (rh == 0) { rh = 0.5; }
         out.write("<rect x=\""+cLe(Math.min(x1,x2))+"\" y=\""+
                   cLe(Math.min(y1,y2))+
                   "\" rx=\"0\" ry=\"0\" "+
-                  "width=\""+cLe(Math.abs(x2-x1))+"\" height=\""+
-                  cLe(Math.abs(y2-y1))+"\" ");
+                  "width=\""+cLe(rw)+"\" height=\""+
+                  cLe(rh)+"\" ");
         checkColorAndWidth(fillPattern, dashStyle);
 
     }
@@ -748,8 +767,14 @@ public final class ExportSVG implements ExportInterface, TextInterface
                 out.write(";stroke-dashoffset: "+dashPhase);
             }
 
-            out.write(";stroke-width:"+strokeWidth+
-                  ";fill-rule: evenodd;\" " + fillPattern + "/>\n");
+            double sw = strokeWidth > 0 ? strokeWidth : 0.5;
+            out.write(";stroke-width:"+sw+
+                  ";stroke-linejoin:round;stroke-linecap:round"+
+                  ";fill-rule: evenodd;\"");
+            if (layerAlpha < 1.0f) {
+                out.write(" opacity=\""+layerAlpha+"\"");
+            }
+            out.write(" " + fillPattern + "/>\n");
         }
     }
 
@@ -866,6 +891,25 @@ public final class ExportSVG implements ExportInterface, TextInterface
         return gi.getStringWidth(s);
     }
 
+    /** Map a font name to a CSS generic family fallback.
+        @param name the font name.
+        @return the generic family keyword to use as fallback.
+    */
+    private String genericFontFamily(String name)
+    {
+        String lower = name.toLowerCase();
+        if (lower.contains("courier") || lower.contains("mono")
+                || lower.contains("consolas") || lower.contains("fixed"))
+        {
+            return "monospace";
+        } else if (lower.contains("times") || lower.contains("serif")
+                || lower.contains("georgia") || lower.contains("palatino"))
+        {
+            return "serif";
+        }
+        return "sans-serif";
+    }
+
     /** Draw a string on the current graphic context.
         @param str the string to be drawn.
         @param x the x coordinate of the starting point.
@@ -877,12 +921,14 @@ public final class ExportSVG implements ExportInterface, TextInterface
     {
         try{
             out.write("<text x=\""+(x-textx)+"\" y=\""
-                +cLe(currentFontSize+y-texty)
+                +cLe(baseFontAscent+y-texty)
                 +"\" font-family=\""+
-                fontname+"\" font-size=\""+cLe(currentFontSize)+
+                fontname+", "+genericFontFamily(fontname)
+                +"\" font-size=\""+cLe(currentFontSize)+
                 "\" font-style=\""+
-                (isItalic?"italic":"")+"\" font-weigth=\""+
+                (isItalic?"italic":"")+"\" font-weight=\""+
                 (isBold?"bold":"")+"\" "+
+                "xml:space=\"preserve\" "+
                 "fill=\"#"+
                     convertToHex2(c.getRed())+
                     convertToHex2(c.getGreen())+

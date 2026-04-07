@@ -217,7 +217,7 @@ public final class ExportEPS implements ExportInterface, TextInterface
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportAdvText (int x, int y, int sizex, int sizey,
+    public void exportAdvText (int x, int y, double sizex, double sizey,
         String fontnameT, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String textT)
         throws IOException
@@ -265,7 +265,7 @@ public final class ExportEPS implements ExportInterface, TextInterface
         // ratio.
         double ratio;
 
-        if(sizey/sizex == 10/7){
+        if((int)(sizey/sizex) == 10/7){
             ratio = 1.0;
         } else {
             ratio=(double)sizey/(double)sizex*22.0/40.0;

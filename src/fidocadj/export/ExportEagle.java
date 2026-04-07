@@ -147,7 +147,7 @@ public final class ExportEagle implements ExportInterface
         @throws IOException when things goes horribly wrong, for example if
             the file in which the output is being done is not accessible.
     */
-    public void exportAdvText (int x, int y, int sizex, int sizey,
+    public void exportAdvText (int x, int y, double sizex, double sizey,
         String fontname, boolean isBold, boolean isMirrored, boolean isItalic,
         int orientation, int layer, String text)
         throws IOException
@@ -161,7 +161,7 @@ public final class ExportEagle implements ExportInterface
         if(oldtextsize!=sizey) {
             out.write("Change size "+sizey*res*text_stretch+"\n");
         }
-        oldtextsize=sizey;
+        oldtextsize=(int)sizey;
 
         out.write("Text "+text+" "+mirror+"R"+(-orientation)+" ("+een(x*res)+
             " "+een((dim.height-y)*res)+");\n");
