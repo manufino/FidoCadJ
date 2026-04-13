@@ -207,10 +207,14 @@ public final class ExportFidoCad implements ExportInterface
             style+=4;
         }
 
+        // When isMirrored, the orientation from export() has been
+        // negated for TEXT_MIRRORED. Negate it back since the FidoCad
+        // format stores the raw angle; draw() applies its own negation.
+        int fidoOrientation = isMirrored ? -orientation : orientation;
         out.write(new PrimitiveAdvText(cLe(x),
             cLe(y),
             cLe(sizex), cLe(sizey), fontname,
-            orientation, style,text, layer).toString(extensions));
+            fidoOrientation, style,text, layer).toString(extensions));
 
     }
 

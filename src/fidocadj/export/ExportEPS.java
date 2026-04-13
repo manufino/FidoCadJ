@@ -252,7 +252,7 @@ public final class ExportEPS implements ExportInterface, TextInterface
         out.write("gsave\n");
 
         if(orientation !=0) {
-            out.write("  "+(isMirrored?orientation:-orientation)+" rotate\n");
+            out.write("  "+(-orientation)+" rotate\n");
         }
 
         if(isMirrored) {
