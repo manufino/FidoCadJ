@@ -958,9 +958,9 @@ public final class PrimitiveComplexCurve
         }
 
         for(int i=0; i<nPoints;++i) {
-            temp.append(virtualPoint[i].x);
+            temp.append(roundIntelligently(virtualPoint[i].x));
             temp.append(" ");
-            temp.append(virtualPoint[i].y);
+            temp.append(roundIntelligently(virtualPoint[i].y));
             temp.append(" ");
         }
 

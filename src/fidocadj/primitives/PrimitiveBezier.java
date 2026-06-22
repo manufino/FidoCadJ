@@ -450,11 +450,15 @@ public final class PrimitiveBezier extends GraphicPrimitive
     */
     public String toString(boolean extensions)
     {
-        String s = "BE "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
-            +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
-            +virtualPoint[2].x+" "+virtualPoint[2].y+" "+
-            +virtualPoint[3].x+" "+virtualPoint[3].y+" "+
-            getLayer()+"\n";
+        String s = "BE "+roundIntelligently(virtualPoint[0].x)+" "
+            +roundIntelligently(virtualPoint[0].y)+" "
+            +roundIntelligently(virtualPoint[1].x)+" "
+            +roundIntelligently(virtualPoint[1].y)+" "
+            +roundIntelligently(virtualPoint[2].x)+" "
+            +roundIntelligently(virtualPoint[2].y)+" "
+            +roundIntelligently(virtualPoint[3].x)+" "
+            +roundIntelligently(virtualPoint[3].y)+" "
+            +getLayer()+"\n";
 
         if(extensions && (arrowData.atLeastOneArrow()|| dashStyle>0 ||
                 hasName() || hasValue()))

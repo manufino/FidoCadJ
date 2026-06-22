@@ -400,9 +400,11 @@ public final class PrimitiveLine extends GraphicPrimitive
             return "";
         }
 
-        String s= "LI "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
-            +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
-            getLayer()+"\n";
+        String s= "LI "+roundIntelligently(virtualPoint[0].x)+" "
+            +roundIntelligently(virtualPoint[0].y)+" "
+            +roundIntelligently(virtualPoint[1].x)+" "
+            +roundIntelligently(virtualPoint[1].y)+" "
+            +getLayer()+"\n";
 
         if(extensions && (arrowData.atLeastOneArrow() || dashStyle>0 ||
             name!=null && name.length()!=0) ||

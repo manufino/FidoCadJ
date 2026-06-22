@@ -361,8 +361,10 @@ public final class PrimitiveOval extends GraphicPrimitive
             cmd = "EV ";
         }
 
-        cmd += virtualPoint[0].x + " " + virtualPoint[0].y + " "
-                + +virtualPoint[1].x + " " + virtualPoint[1].y + " "
+        cmd += roundIntelligently(virtualPoint[0].x) + " " 
+            + roundIntelligently(virtualPoint[0].y) + " "
+            + roundIntelligently(virtualPoint[1].x) + " "
+            + roundIntelligently(virtualPoint[1].y) + " "
                 + getLayer() + "\n";
 
         if (extensions && (dashStyle > 0 || hasName() || hasValue())) {

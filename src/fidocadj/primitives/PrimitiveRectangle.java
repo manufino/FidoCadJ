@@ -214,10 +214,10 @@ public final class PrimitiveRectangle extends GraphicPrimitive
             if (nn<5) {
                 throw new IOException("Bad arguments on RV/RP");
             }
-            float x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            float y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
-            virtualPoint[1].x=Integer.parseInt(tokens[3]);
-            virtualPoint[1].y=Integer.parseInt(tokens[4]);
+            float x1 = virtualPoint[0].x=Float.parseFloat(tokens[1]);
+            float y1 = virtualPoint[0].y=Float.parseFloat(tokens[2]);
+            virtualPoint[1].x=Float.parseFloat(tokens[3]);
+            virtualPoint[1].y=Float.parseFloat(tokens[4]);
 
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
@@ -351,8 +351,10 @@ public final class PrimitiveRectangle extends GraphicPrimitive
             cmd="RV ";
         }
 
-        cmd+=virtualPoint[0].x+" "+virtualPoint[0].y+" "+
-            +virtualPoint[1].x+" "+virtualPoint[1].y+" "+
+        cmd+=roundIntelligently(virtualPoint[0].x)+" "
+            +roundIntelligently(virtualPoint[0].y)+" "
+            +roundIntelligently(virtualPoint[1].x)+" "
+            +roundIntelligently(virtualPoint[1].y)+" "+
             getLayer()+"\n";
 
         if(extensions && (dashStyle>0 || hasName() || hasValue())) {

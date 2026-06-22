@@ -387,8 +387,12 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     */
     public String toString(boolean extensions)
     {
-        String s = "PA "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+
-            rx+" "+ry+" "+ri+" "+sty+" "+getLayer()+"\n";
+        String s = "PA "
+            +roundIntelligently(virtualPoint[0].x)+" "
+            +roundIntelligently(virtualPoint[0].y)+" "
+            +roundIntelligently(rx)+" "
+            +roundIntelligently(ry)+" "
+            +roundIntelligently(ri)+" "+sty+" "+getLayer()+"\n";
 
         s+=saveText(extensions);
         return s;

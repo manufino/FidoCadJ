@@ -565,7 +565,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
             mirror="1";
         }
 
-        String s="MC "+virtualPoint[0].x+" "+virtualPoint[0].y+" "+o+" "
+        String s="MC "+roundIntelligently(virtualPoint[0].x)
+            +" "+roundIntelligently(virtualPoint[0].y)+" "+o+" "
                 +mirror+" "+macroName+"\n";
 
         s+=saveText(extensions);

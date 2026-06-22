@@ -692,8 +692,10 @@ public final class PrimitiveAdvText extends GraphicPrimitive
             subsFont = s.toString();
         }
 
-        return "TY " + virtualPoint[0].x + " " + virtualPoint[0].y
-                + " " + siy + " " + six + " " + o + " " + sty + " "
+        return "TY " + roundIntelligently(virtualPoint[0].x) + " "
+                + roundIntelligently(virtualPoint[0].y)
+                + " " + roundIntelligently(siy) + " " 
+                + roundIntelligently(six) + " " + o + " " + sty + " "
                 + getLayer() + " " + subsFont + " " + txt + "\n";
     }
 

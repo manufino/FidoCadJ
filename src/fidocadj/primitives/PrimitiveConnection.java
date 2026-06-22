@@ -219,9 +219,9 @@ public final class PrimitiveConnection
     {
         StringBuffer s=new StringBuffer(100);
         s.append("SA ");
-        s.append(virtualPoint[0].x);
+        s.append(roundIntelligently(virtualPoint[0].x));
         s.append(" ");
-        s.append(virtualPoint[0].y);
+        s.append(roundIntelligently(virtualPoint[0].y));
         s.append(" ");
         s.append(getLayer());
         s.append("\n");
