@@ -35,7 +35,7 @@ import fidocadj.globals.Globals;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2023 by Davide Bucci
+    Copyright 2014-2026 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -135,8 +135,8 @@ public class HandleActions
         for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
                 for (int j = 0; j < g.getControlPointNumber(); ++j) {
-                    int newX = g.virtualPoint[j].x + dx;
-                    int newY = g.virtualPoint[j].y + dy;
+                    float newX = g.virtualPoint[j].x + dx;
+                    float newY = g.virtualPoint[j].y + dy;
 
                     // If any point goes out of bounds,
                     // prevent the move for all

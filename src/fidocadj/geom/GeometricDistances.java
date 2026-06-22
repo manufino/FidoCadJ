@@ -22,7 +22,7 @@ package fidocadj.geom;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2023 by Davide Bucci
+    Copyright 2008-2026 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -234,6 +234,34 @@ public final class GeometricDistances
             idy=y-(ya+it*idy/1000); // NOPMD parentheses are useful here!
         }
         return (int)Math.sqrt(idx*idx+idy*idy);
+    }
+
+    /** Tells if a point lies inside a polygon, using the alternance rule
+        adapted from a snippet by Randolph Franklin, in Paul Bourke pages:
+        http://local.wasp.uwa.edu.au/~pbourke/geometry/insidepoly/
+
+        @param xp vector of x coordinates of vertices
+        @param yp vector of y coordinates of vertices
+        @param npol number of vertices
+        @param x x coordinate of the point
+        @param y y coordinate of the point
+        @return true if the point lies in the polygon, false otherwise.
+    */
+    public static boolean pointInPolygon(
+            float[] xp, float[] yp, int npol, double x, double y)
+    {
+        c = false;
+
+        for (i = 0,j = npol-1; i < npol; j=i++) {
+            if ((yp[i] <= y && y < yp[j] ||
+                 yp[j] <= y && y < yp[i]) &&
+                x < (xp[j] - xp[i]) * (y - yp[i]) / (yp[j] - yp[i]) + xp[i])
+            {
+                c = !c;
+            }
+            j=i;
+        }
+        return c;
     }
 
     /** Tells if a point lies inside a polygon, using the alternance rule

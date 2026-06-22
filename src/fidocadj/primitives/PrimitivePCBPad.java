@@ -29,17 +29,17 @@ import fidocadj.graphic.GraphicsInterface;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
 */
 public final class PrimitivePCBPad extends GraphicPrimitive
 {
-    private int rx;
-    private int ry;
+    private float rx;
+    private float ry;
     private int sty;
-    private int ri;
+    private float ri;
 
     // The radius of the rounded corner in logical units. This is hardcoded
     // here as it has been done for FidoCadJ, but one may consider let this
@@ -55,8 +55,8 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int x1;         // NOPMD
-    private int y1;         // NOPMD
+    private float x1;         // NOPMD
+    private float y1;         // NOPMD
     private int rrx;
     private int rry;
     private int xa;
@@ -90,7 +90,7 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         @param size the size of the font for attached text.
     */
     public PrimitivePCBPad(int x1, int y1, int wx, int wy, int radi, int st,
-        int layer, String f, int size)
+        int layer, String f, float size)
     {
         super();
         initPrimitive(-1, f, size);
@@ -115,7 +115,7 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitivePCBPad(String f, int size)
+    public PrimitivePCBPad(String f, float size)
     {
         super();
         rx=0;
@@ -237,15 +237,15 @@ public final class PrimitivePCBPad extends GraphicPrimitive
             // Load the points in the virtual points associated to the
             // current primitive.
 
-            int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
+            float x1 = virtualPoint[0].x=Float.parseFloat(tokens[1]);
+            float y1 = virtualPoint[0].y=Float.parseFloat(tokens[2]);
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
-            rx=Integer.parseInt(tokens[3]);
-            ry=Integer.parseInt(tokens[4]);
-            ri=Integer.parseInt(tokens[5]);
+            rx=Float.parseFloat(tokens[3]);
+            ry=Float.parseFloat(tokens[4]);
+            ri=Float.parseFloat(tokens[5]);
             sty=Integer.parseInt(tokens[6]);
 
             if(nn>7) { parseLayer(tokens[7]); }
@@ -274,15 +274,15 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         List<ParameterDescription> v=super.getControls();
         ParameterDescription pd = new ParameterDescription();
 
-        pd.parameter= Integer.valueOf(rx);
+        pd.parameter= Float.valueOf(rx);
         pd.description=Globals.messages.getString("ctrl_x_radius");
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter= Integer.valueOf(ry);
+        pd.parameter= Float.valueOf(ry);
         pd.description=Globals.messages.getString("ctrl_y_radius");
         v.add(pd);
         pd = new ParameterDescription();
-        pd.parameter= Integer.valueOf(ri);
+        pd.parameter= Float.valueOf(ri);
         pd.description=Globals.messages.getString("ctrl_internal_radius");
         v.add(pd);
         pd = new ParameterDescription();
@@ -309,8 +309,8 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Integer) {
-            rx=((Integer)pd.parameter).intValue();
+        if (pd.parameter instanceof Float) {
+            rx=((Float)pd.parameter).floatValue();
         } else {
             System.out.println("Warning: unexpected parameter!"+pd);
         }
@@ -318,8 +318,8 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Integer) {
-            ry=((Integer)pd.parameter).intValue();
+        if (pd.parameter instanceof Float) {
+            ry=((Float)pd.parameter).floatValue();
         } else {
             System.out.println("Warning: unexpected parameter!"+pd);
         }
@@ -327,8 +327,8 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         pd=(ParameterDescription)v.get(i);
         ++i;
         // Check, just for sure...
-        if (pd.parameter instanceof Integer) {
-            ri=((Integer)pd.parameter).intValue();
+        if (pd.parameter instanceof Float) {
+            ri=((Float)pd.parameter).floatValue();
         } else {
             System.out.println("Warning: unexpected parameter!"+pd);
         }
@@ -353,7 +353,7 @@ public final class PrimitivePCBPad extends GraphicPrimitive
     public void rotatePrimitive(boolean bCounterClockWise, int ix, int iy)
     {
         super.rotatePrimitive(bCounterClockWise, ix, iy);
-        int swap=rx;
+        float swap=rx;
         rx=ry;
         ry=swap;
     }
@@ -374,10 +374,10 @@ public final class PrimitivePCBPad extends GraphicPrimitive
             return 0;
         }
 
-        int distance=GeometricDistances.pointToPoint(
+        double distance=GeometricDistances.pointToPoint(
                 virtualPoint[0].x,virtualPoint[0].y,
                 px,py)-Math.min(rx,ry)/2;
-        return distance>0?distance:0;
+        return distance>0?Math.round((float)distance):0;
     }
 
     /** Obtain a string command descripion of the primitive.

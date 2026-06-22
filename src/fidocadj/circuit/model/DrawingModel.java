@@ -33,7 +33,7 @@ import fidocadj.primitives.PrimitiveMacro;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -59,7 +59,7 @@ public final class DrawingModel
 
     // Font and size to be used for the text associated to the macros.
     private String macroFont;
-    private int macroFontSize;
+    private float macroFontSize;
 
     // True if the drawing characteristics have been modified. This implies
     // that during the first redraw a in-depth calculation of all coordinates
@@ -196,9 +196,9 @@ public final class DrawingModel
         @param tsize the size
         @param ua the undo controller or null if not useful.
     */
-    public void setTextFont(String f, int tsize, UndoActions ua)
+    public void setTextFont(String f, float tsize, UndoActions ua)
     {
-        int size=tsize;
+        float size=tsize;
 
         macroFont=f;
         macroFontSize = size;
@@ -221,7 +221,7 @@ public final class DrawingModel
     /** Get the size of the font used for all macros.
         @return the font name
     */
-    public int getTextFontSize()
+    public float getTextFontSize()
     {
         if(getPrimitiveVector().isEmpty()) {
             return macroFontSize;
@@ -229,7 +229,7 @@ public final class DrawingModel
 
         // TODO: not very elegant piece of code.
         // Basically, we grab the settings of the very first object stored.
-        int size=((GraphicPrimitive)getPrimitiveVector().get(0))
+        float size=((GraphicPrimitive)getPrimitiveVector().get(0))
                    .getMacroFontSize();
 
         if(size<=0) { size=1; }

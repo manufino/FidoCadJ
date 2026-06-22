@@ -28,7 +28,7 @@ import fidocadj.graphic.GraphicsInterface;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -43,10 +43,10 @@ public final class PrimitiveConnection
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int x1;         // NOPMD
-    private int y1;         // NOPMD
-    private int xa1;        // NOPMD
-    private int ya1;        // NOPMD
+    private float x1;         // NOPMD
+    private float y1;         // NOPMD
+    private float xa1;        // NOPMD
+    private float ya1;        // NOPMD
     private int ni;         // NOPMD
     private double nn;      // NOPMD
     private float w;        // NOPMD
@@ -63,7 +63,7 @@ public final class PrimitiveConnection
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveConnection(String f, int size)
+    public PrimitiveConnection(String f, float size)
     {
         super();
         initPrimitive(-1, f, size);
@@ -76,7 +76,7 @@ public final class PrimitiveConnection
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveConnection(int x, int y, int layer, String f, int size)
+    public PrimitiveConnection(int x, int y, int layer, String f, float size)
     {
         super();
 
@@ -138,7 +138,7 @@ public final class PrimitiveConnection
             if (w<D_MIN) { w=D_MIN; }
         }
 
-        if(!g.hitClip(xa1, ya1, ni, ni)) {
+        if(!g.hitClip(Math.round(xa1), Math.round(ya1), ni, ni)) {
             return;
         }
 
@@ -147,9 +147,9 @@ public final class PrimitiveConnection
         // When the circle is very small, it is better to set a single pixel
         // than trying to fill the oval.
         if(ni>1) {
-            g.fillOval(xa1, ya1, ni, ni);
+            g.fillOval(Math.round(xa1), Math.round(ya1), ni, ni);
         } else {
-            g.fillRect(xa1, ya1, ni, ni);
+            g.fillRect(Math.round(xa1), Math.round(ya1), ni, ni);
         }
     }
 
@@ -175,15 +175,13 @@ public final class PrimitiveConnection
             // Load the points in the virtual points associated to the
             // current primitive.
 
-            int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
+            float x1 = virtualPoint[0].x=Float.parseFloat(tokens[1]);
+            float y1 = virtualPoint[0].y=Float.parseFloat(tokens[2]);
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
             virtualPoint[getValueVirtualPointNumber()].y=y1+10;
             if(nn>3) { parseLayer(tokens[3]); }
-
-
         } else {
             throw new IOException("Invalid primitive:"+
                                           " programming error?");
@@ -208,7 +206,7 @@ public final class PrimitiveConnection
 
         // If not, we check for the distance with the connection center.
         return GeometricDistances.pointToPoint(
-                virtualPoint[0].x,virtualPoint[0].y,
+                Math.round(virtualPoint[0].x), Math.round(virtualPoint[0].y),
                 px,py)-1;
     }
 

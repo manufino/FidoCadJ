@@ -30,7 +30,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -48,17 +48,17 @@ public final class PrimitivePCBLine extends GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xa;
-    private int ya;
-    private int xb;             // NOPMD
-    private int yb;             // NOPMD
-    private int x1;
-    private int y1;
-    private int x2;
-    private int y2;
+    private float xa;
+    private float ya;
+    private float xb;             // NOPMD
+    private float yb;             // NOPMD
+    private float x1;
+    private float y1;
+    private float x2;
+    private float y2;
     private float wiPix;
-    private int xbpap1;
-    private int ybpap1;
+    private float xbpap1;
+    private float ybpap1;
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -72,7 +72,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitivePCBLine(String f, int size)
+    public PrimitivePCBLine(String f, float size)
     {
         super();
         width=0;
@@ -89,7 +89,7 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         @param size the size of the font for attached text.
     */
     public PrimitivePCBLine(int x1, int y1, int x2, int y2, float w, int layer,
-            String f, int size)
+            String f, float size)
     {
         super();
         initPrimitive(-1, f, size);
@@ -152,12 +152,15 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         // ensures that the primitive is correctly drawn when it is
         // partially visible.
 
-        if(!g.hitClip(xa,ya, xbpap1,ybpap1)) {
+        if(!g.hitClip(Math.round(xa),Math.round(ya),
+            Math.round(xbpap1),Math.round(ybpap1)))
+        {
             return;
         }
 
         g.applyStroke(wiPix, 0);
-        g.drawLine(x1, y1, x2, y2);
+        g.drawLine(Math.round(x1), Math.round(y1), 
+                   Math.round(x2), Math.round(y2));
     }
 
     /** Parse a token array and store the graphic data for a given primitive
@@ -184,10 +187,10 @@ public final class PrimitivePCBLine extends GraphicPrimitive
             // Load the points in the virtual points associated to the
             // current primitive.
 
-            int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
-            virtualPoint[1].x=Integer.parseInt(tokens[3]);
-            virtualPoint[1].y=Integer.parseInt(tokens[4]);
+            float x1 = virtualPoint[0].x=Float.parseFloat(tokens[1]);
+            float y1 = virtualPoint[0].y=Float.parseFloat(tokens[2]);
+            virtualPoint[1].x=Float.parseFloat(tokens[3]);
+            virtualPoint[1].y=Float.parseFloat(tokens[4]);
 
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
@@ -350,10 +353,10 @@ public final class PrimitivePCBLine extends GraphicPrimitive
             return isFullyContained(rect);
         }
 
-        int x1 = virtualPoint[0].x;
-        int y1 = virtualPoint[0].y;
-        int x2 = virtualPoint[1].x;
-        int y2 = virtualPoint[1].y;
+        float x1 = virtualPoint[0].x;
+        float y1 = virtualPoint[0].y;
+        float x2 = virtualPoint[1].x;
+        float y2 = virtualPoint[1].y;
 
         // Check if either endpoint of the line is within the selection
         // rectangle

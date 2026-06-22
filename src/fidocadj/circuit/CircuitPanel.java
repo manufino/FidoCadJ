@@ -63,7 +63,7 @@ import fidocadj.primitives.PrimitiveAdvText;
  * along with FidoCadJ. If not,
  * @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
  *
- * Copyright 2007-2023 by Davide Bucci
+ * Copyright 2007-2026 by Davide Bucci
  * </pre>
  *
  * @author Davide Bucci
@@ -1280,8 +1280,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
     public boolean normalizeCoordinates()
     {
         DrawingModel model = getDrawingModel();
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
+        float minX = Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
 
         final int gridStep = getMapCoordinates().getXGridStep();
 
@@ -1304,11 +1304,11 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
         // If minimum x or y coordinates are negative,
         // calculate the necessary translation
         if (minX < 0 || minY < 0) {
-            int rawDeltaX = minX < 0 ? -minX + MARGIN : MARGIN;
-            int rawDeltaY = minY < 0 ? -minY + MARGIN : MARGIN;
+            float rawDeltaX = minX < 0 ? -minX + MARGIN : MARGIN;
+            float rawDeltaY = minY < 0 ? -minY + MARGIN : MARGIN;
 
-            int deltaX = ((rawDeltaX + gridStep - 1) / gridStep) * gridStep;
-            int deltaY = ((rawDeltaY + gridStep - 1) / gridStep) * gridStep;
+            float deltaX = ((rawDeltaX + gridStep - 1) / gridStep) * gridStep;
+            float deltaY = ((rawDeltaY + gridStep - 1) / gridStep) * gridStep;
 
             // Apply the translation to all primitives
             for (GraphicPrimitive gp : model.getPrimitiveVector()) {

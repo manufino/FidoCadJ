@@ -20,19 +20,19 @@ package fidocadj.graphic;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2026 by Davide Bucci
 </pre>
 */
 public class PointG
 {
-    public int x;
-    public int y;
+    public float x;
+    public float y;
 
     /** Standard constructor.
         @param x the x coordinate of the point.
         @param y the y coordinate of the point.
     */
-    public PointG(int x, int y)
+    public PointG(float x, float y)
     {
         this.x=x;
         this.y=y;

@@ -48,7 +48,7 @@ import fidocadj.primitives.PrimitivePolygon;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
 </pre>
 */
 
@@ -261,7 +261,7 @@ public class ParserActions
         boolean hasFCJ=false; // The last primitive had FCJ extensions
         StringBuffer token=new StringBuffer();
         String macroFont = model.getTextFont();
-        int macroFontSize = model.getTextFontSize();
+        float macroFontSize = model.getTextFontSize();
 
         // Flag indicating that the line is already too long and should not be
         // processed anymore:
@@ -758,7 +758,7 @@ public class ParserActions
         throws IOException
     {
         String macroFont = model.getTextFont();
-        int macroFontSize = model.getTextFontSize();
+        float macroFontSize = model.getTextFontSize();
         List<LayerDesc> layerV=model.getLayers();
 
         GraphicPrimitive g=gg;

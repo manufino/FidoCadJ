@@ -36,7 +36,7 @@ import fidocadj.graphic.nil.GraphicsNull;
  * along with FidoCadJ. If not,
  * @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
  *
- * Copyright 2007-2023 by Davide Bucci
+ * Copyright 2007-2026 by Davide Bucci
  * </pre>
  *
  * @author Davide Bucci
@@ -84,11 +84,11 @@ public final class PrimitiveAdvText extends GraphicPrimitive
     private double ymagnitude;
     private boolean coordmirroring;
 
-    private int x1;                 // NOPMD
-    private int y1;                 // NOPMD
-    private int xa;
-    private int ya;
-    private int qq;
+    private float x1;                 // NOPMD
+    private float y1;                 // NOPMD
+    private float xa;
+    private float ya;
+    private float qq;
     private double xyfactor;
     private double si;              // NOPMD
     private double co;              // NOPMD
@@ -272,11 +272,12 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 coordSys.trackPoint((int) bbx3, (int) bby3);
                 coordSys.trackPoint((int) bbx4, (int) bby4);
             }
-            qq = (int) (ya / xyfactor);
+            qq = (float)(ya / xyfactor);
         }
 
-        g.drawAdvText(xyfactor, xa, ya, qq, h, w, h, needsStretching,
-                orientation, mirror, txt);
+        g.drawAdvText(xyfactor, Math.round(xa), Math.round(ya), 
+                Math.round(qq), Math.round(h), Math.round(w), Math.round(h),
+                needsStretching, orientation, mirror, txt);
     }
 
     /**
@@ -303,8 +304,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                 throw new IOException("bad arguments on TY");
             }
 
-            virtualPoint[0].x = Integer.parseInt(tokens[1]);
-            virtualPoint[0].y = Integer.parseInt(tokens[2]);
+            virtualPoint[0].x = Float.parseFloat(tokens[1]);
+            virtualPoint[0].y = Float.parseFloat(tokens[2]);
             // We may accept non-integer data in the future.
             siy = (int) Math.round(Double.parseDouble(tokens[3]));
             six = (int) Math.round(Double.parseDouble(tokens[4]));
@@ -339,8 +340,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
                     throw new IOException("bad arguments on TE");
                 }
 
-                virtualPoint[0].x = Integer.parseInt(tokens[1]);
-                virtualPoint[0].y = Integer.parseInt(tokens[2]);
+                virtualPoint[0].x = Float.parseFloat(tokens[1]);
+                virtualPoint[0].y = Float.parseFloat(tokens[2]);
                 // Default sizes and styles
                 six = 3;
                 siy = 4;
@@ -428,8 +429,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
             recalcSize = false;
 
-            xaSCI = virtualPoint[0].x;
-            yaSCI = virtualPoint[0].y;
+            xaSCI = Math.round(virtualPoint[0].x);
+            yaSCI = Math.round(virtualPoint[0].y);
 
             orientationSCI = o;
 
@@ -620,7 +621,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      * @param iy the y coordinate of the rotation center
      */
     @Override
-    public void rotatePrimitive(boolean bc, int ix, int iy)
+    public void rotatePrimitive(boolean bc, float ix, float iy)
     {
         boolean bCounterClockWise = bc;
         super.rotatePrimitive(bCounterClockWise, ix, iy);
@@ -648,7 +649,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      *
      */
     @Override
-    public void mirrorPrimitive(int xPos)
+    public void mirrorPrimitive(float xPos)
     {
         super.mirrorPrimitive(xPos);
         sty ^= TEXT_MIRRORED;
@@ -790,37 +791,38 @@ public final class PrimitiveAdvText extends GraphicPrimitive
 
         int textHeight = g.getFontAscent() + g.getFontDescent();
 
-        double angleRad = Math.toRadians(o);
-        double sin = Math.sin(angleRad);
-        double cos = Math.cos(angleRad);
+        float angleRad = (float) Math.toRadians(o);
+        float sin = (float)Math.sin(angleRad);
+        float cos = (float)Math.cos(angleRad);
 
         // Adjust for mirroring
         if ((sty & TEXT_MIRRORED) != 0) {
             cos = -cos;
         }
 
-        int x = virtualPoint[0].x;
-        int y = virtualPoint[0].y;
+        float x = virtualPoint[0].x;
+        float y = virtualPoint[0].y;
 
-        int x1 = x;
-        int y1 = y - textHeight;
+        float x1 = x;
+        float y1 = y - textHeight;
 
-        int x2 = x + (int) (textWidth * cos);
-        int y2 = y - (int) (textWidth * sin);
+        float x2 = x + (textWidth * cos);
+        float y2 = y - (textWidth * sin);
 
-        int x3 = x + (int) (textWidth * cos - textHeight * sin);
-        int y3 = y - (int) (textWidth * sin + textHeight * cos);
+        float x3 = x + (textWidth * cos - textHeight * sin);
+        float y3 = y - (textWidth * sin + textHeight * cos);
 
-        int x4 = x - (int) (textHeight * sin);
-        int y4 = y - (int) (textHeight * cos);
+        float x4 = x - (textHeight * sin);
+        float y4 = y - (textHeight * cos);
 
-        int minX = Math.min(Math.min(x1, x2), Math.min(x3, x4));
-        int minY = Math.min(Math.min(y1, y2), Math.min(y3, y4));
-        int maxX = Math.max(Math.max(x1, x2), Math.max(x3, x4));
-        int maxY = Math.max(Math.max(y1, y2), Math.min(y3, y4));
+        float minX = Math.min(Math.min(x1, x2), Math.min(x3, x4));
+        float minY = Math.min(Math.min(y1, y2), Math.min(y3, y4));
+        float maxX = Math.max(Math.max(x1, x2), Math.max(x3, x4));
+        float maxY = Math.max(Math.max(y1, y2), Math.min(y3, y4));
 
-        RectangleG boundingBox = new RectangleG(minX, minY, maxX - minX,
-                maxY - minY);
+        RectangleG boundingBox = new RectangleG(
+            minX, minY, 
+            maxX - minX, maxY - minY);
 
         return rect.intersects(boundingBox);
     }

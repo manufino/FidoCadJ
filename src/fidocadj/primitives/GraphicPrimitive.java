@@ -36,7 +36,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2023 by Davide Bucci, phylum2
+    Copyright 2008-2026 by Davide Bucci, phylum2
     </pre>
 */
 public abstract class GraphicPrimitive
@@ -82,7 +82,7 @@ public abstract class GraphicPrimitive
     // information is stored to speed up the redraw.
     protected boolean changed;
 
-    private int macroFontSize;
+    private float macroFontSize;
     protected String macroFont;
     protected String name;
     protected String value;
@@ -96,24 +96,24 @@ public abstract class GraphicPrimitive
     // Those are data which are kept for the fast redraw of this primitive.
     // Basically, they are calculated once and then used as much as possible
     // without having to calculate everything from scratch.
-    private int xa;
-    private int ya;
-    private int xb;
-    private int yb;
+    private float xa;
+    private float ya;
+    private float xb;
+    private float yb;
     // Text sizes in pixels
-    private int h;
-    private int th;
-    private int w1;
-    private int w2;
+    private float h;
+    private float th;
+    private float w1;
+    private float w2;
 
     // Text sizes in logical units.
-    private int t_th;
-    private int t_w1;
-    private int t_w2;
-    private int x2;         // NOPMD
-    private int y2;         // NOPMD
-    private int x3;         // NOPMD
-    private int y3;         // NOPMD
+    private float t_th;
+    private float t_w1;
+    private float t_w2;
+    private float x2;         // NOPMD
+    private float y2;         // NOPMD
+    private float x3;         // NOPMD
+    private float y3;         // NOPMD
 
     /* At first, non abstract methods */
 
@@ -160,7 +160,7 @@ public abstract class GraphicPrimitive
         @param f the font name.
         @param size the font size.
     */
-    public void setMacroFont(String f, int size)
+    public void setMacroFont(String f, float size)
     {
         macroFont = f;
         setMacroFontSize(size);
@@ -176,7 +176,7 @@ public abstract class GraphicPrimitive
         @param font the font to be employed for the associated text.
         @param size the size to be employed for the associated text.
     */
-    public void initPrimitive(int number, String font, int size)
+    public void initPrimitive(int number, String font, float size)
     {
         // Not very elegant. In fact, it would be better to use settings
         // present in DrawingModel, and not to have to use prefs here.
@@ -208,7 +208,7 @@ public abstract class GraphicPrimitive
     /** Get the size of the macro font.
         @return the size of the macro font.
     */
-    public int getMacroFontSize()
+    public float getMacroFontSize()
     {
         return macroFontSize;
     }
@@ -216,7 +216,7 @@ public abstract class GraphicPrimitive
     /** Set the size of the macro font.
         @param size the size of the macro font.
     */
-    public void setMacroFontSize(int size)
+    public void setMacroFontSize(float size)
     {
         macroFontSize=size;
         // Silently correct a wrong size. This should never happen (the dialog
@@ -319,14 +319,21 @@ public abstract class GraphicPrimitive
         }
 
         // If there is no need to draw the text, just exit.
-        if(!g.hitClip(xa,ya, w1,th) && !g.hitClip(xb,yb, w2,th)) {
+        if(!g.hitClip(Math.round(xa),Math.round(ya),
+                      Math.round(w1),Math.round(th)) &&
+           !g.hitClip(Math.round(xb),Math.round(yb), 
+                      Math.round(w2),
+                      Math.round(th)))
+        {
             return;
         }
 
         // This is useful and faster for small zooms
         if(th<Globals.textSizeLimit) {
-            g.drawLine(xa,ya, xa+w1-1,ya);
-            g.drawLine(xb,yb, xb+w2-1,yb);
+            g.drawLine(Math.round(xa),Math.round(ya), 
+                Math.round(xa+w1-1),Math.round(ya));
+            g.drawLine(Math.round(xb),Math.round(yb),
+                Math.round(xb+w2-1),Math.round(yb));
             return;
         }
 
@@ -341,10 +348,10 @@ public abstract class GraphicPrimitive
             /topic/3474689?message=7798139
         */
         if (name!=null && name.length()!=0) {
-            dt.drawString(name,xa,ya+h);
+            dt.drawString(name,Math.round(xa),Math.round(ya+h));
         }
         if (value!=null && value.length()!=0) {
-            dt.drawString(value,xb,yb+h);
+            dt.drawString(value,Math.round(xb),Math.round(yb+h));
         }
     }
 
@@ -506,9 +513,9 @@ public abstract class GraphicPrimitive
             }
 
             virtualPoint[getValueVirtualPointNumber()].x=
-                Integer.parseInt(tokens[1]);
+                Float.parseFloat(tokens[1]);
             virtualPoint[getValueVirtualPointNumber()].y=
-                Integer.parseInt(tokens[2]);
+                Float.parseFloat(tokens[2]);
 
             if("*".equals(tokens[8])) {
                 macroFont = Globals.defaultTextFont;
@@ -517,7 +524,7 @@ public abstract class GraphicPrimitive
             }
 
             // Adding the following line should fix bug #3522962
-            setMacroFontSize(Integer.parseInt(tokens[4]));
+            setMacroFontSize(Float.parseFloat(tokens[4]));
 
             while(j<nn-1){
                 txtb.append(tokens[++j]);
@@ -551,9 +558,9 @@ public abstract class GraphicPrimitive
             }
 
             virtualPoint[getNameVirtualPointNumber()].x=
-                Integer.parseInt(tokens[1]);
+                Float.parseFloat(tokens[1]);
             virtualPoint[getNameVirtualPointNumber()].y=
-                Integer.parseInt(tokens[2]);
+                Float.parseFloat(tokens[2]);
 
             while(j<nn-1) {
                 txtb.append(tokens[++j]);
@@ -593,13 +600,13 @@ public abstract class GraphicPrimitive
         @param dy the relative y displacement (logical units)
 
     */
-    public void movePrimitive(int dx, int dy)
+    public void movePrimitive(float dx, float dy)
     {
         // Check if the move would result in any virtual point having negative
         // coordinates
         for (int a = 0; a < getControlPointNumber(); ++a) {
-            int newX = virtualPoint[a].x + dx;
-            int newY = virtualPoint[a].y + dy;
+            float newX = virtualPoint[a].x + dx;
+            float newY = virtualPoint[a].y + dy;
 
             // If any new coordinate is negative, abort the move
             if (newX < 0 || newY < 0) {
@@ -620,9 +627,9 @@ public abstract class GraphicPrimitive
         @param xPos is the symmetry axis
 
     */
-    public void mirrorPrimitive(int xPos)
+    public void mirrorPrimitive(float xPos)
     {
-        int xtmp;
+        float xtmp;
 
         for(int a=0; a<getControlPointNumber(); ++a) {
             xtmp = virtualPoint[a].x;
@@ -638,7 +645,7 @@ public abstract class GraphicPrimitive
         @param ix the x coordinate of the center of rotation
         @param iy the y coordinate of the center of rotation
     */
-    public void rotatePrimitive(boolean bCounterClockWise, int ix, int iy)
+    public void rotatePrimitive(boolean bCounterClockWise, float ix, float iy)
     {
 
         PointG ptTmp=new PointG();
@@ -885,8 +892,8 @@ public abstract class GraphicPrimitive
     */
     public boolean selectRect(int px, int py, int w, int h)
     {
-        int xa;
-        int ya;
+        float xa;
+        float ya;
 
         for(int i=0;i<getControlPointNumber();++i) {
             if (!testIfValidHandle(i)) {
@@ -1121,8 +1128,8 @@ public abstract class GraphicPrimitive
     public DimensionG getSize()
     {
         GraphicPrimitive p = this;
-        int qx = 0;
-        int qy = 0;
+        float qx = 0;
+        float qy = 0;
         for (int i = 0; i < p.getControlPointNumber(); i++) {
             if (i == p.getNameVirtualPointNumber()
                     || i == p.getValueVirtualPointNumber())
@@ -1139,7 +1146,7 @@ public abstract class GraphicPrimitive
                 qy = Math.abs(p.virtualPoint[i].y - p.virtualPoint[j].y);
             }
         }
-        return new DimensionG(qx,qy);
+        return new DimensionG(Math.round(qx),Math.round(qy));
     }
 
     /** Get the minimum x and y values of all control points of the element.
@@ -1148,8 +1155,8 @@ public abstract class GraphicPrimitive
     public PointG getPosition()
     {
         GraphicPrimitive p = this;
-        int qx = Integer.MAX_VALUE;
-        int qy = Integer.MAX_VALUE;
+        float qx = Float.MAX_VALUE;
+        float qy = Float.MAX_VALUE;
         for (int i = 0; i < p.getControlPointNumber(); i++) {
             if (i == p.getNameVirtualPointNumber()
                     || i == p.getValueVirtualPointNumber())
@@ -1202,7 +1209,7 @@ public abstract class GraphicPrimitive
     {
         // Check if all points are fully contained within the rectangle
         for (PointG point : virtualPoint) {
-            if (!rect.contains(point.x, point.y)) {
+            if (!rect.contains(Math.round(point.x), Math.round(point.y))) {
                 return false; // At least one point is outside the rectangle
             }
         }
@@ -1227,7 +1234,7 @@ public abstract class GraphicPrimitive
             return isFullyContained(rect);
 
         for (PointG point : virtualPoint) {
-            if (rect.contains(point.x, point.y)) {
+            if (rect.contains(Math.round(point.x), Math.round(point.y))) {
                 return true;
             }
         }

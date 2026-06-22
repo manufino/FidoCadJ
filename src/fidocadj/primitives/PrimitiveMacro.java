@@ -37,7 +37,7 @@ import fidocadj.layers.LayerDesc;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -62,8 +62,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
     private Drawing drawingAgent;
 
     // Stored data for caching
-    private int x1;             // NOPMD
-    private int y1;             // NOPMD
+    private float x1;             // NOPMD
+    private float y1;             // NOPMD
 
     /** Some layers may be shown or hidden by the user. Therefore, in some
         cases they may be exported or not. Set if invisible layers should be
@@ -91,7 +91,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param size the size of the font for attached text.
     */
     public PrimitiveMacro(Map<String, MacroDesc>lib, List<LayerDesc> l,
-            String f, int size)
+            String f, float size)
     {
         super();
         library=lib;
@@ -130,7 +130,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
     public PrimitiveMacro(Map<String, MacroDesc> lib, List<LayerDesc> l,
          int x, int y, String keyT,
          String na, int xa, int ya, String va, int xv, int yv, String macroF,
-         int macroS, int oo, boolean mm)
+         float macroS, int oo, boolean mm)
         throws IOException
     {
         super();
@@ -335,8 +335,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
             // Load the points in the virtual points associated to the
             // current primitive.
 
-            virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            virtualPoint[0].y=Integer.parseInt(tokens[2]);
+            virtualPoint[0].x=Float.parseFloat(tokens[1]);
+            virtualPoint[0].y=Float.parseFloat(tokens[2]);
             virtualPoint[1].x=virtualPoint[0].x+10;
             virtualPoint[1].y=virtualPoint[0].y+10;
             virtualPoint[2].x=virtualPoint[0].x+10;
@@ -397,9 +397,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
         /* in the macro primitive, the the first virtual point represents
            the position of the reference point of the macro to be drawn. */
 
-        int x1=virtualPoint[0].x;
-        int y1=virtualPoint[0].y;
-        int dt=Integer.MAX_VALUE;
+        float x1=virtualPoint[0].x;
+        float y1=virtualPoint[0].y;
+        float dt=Float.MAX_VALUE;
 
         // Here we check if the given point lies inside the text areas
 
@@ -409,8 +409,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
         // If not, we need to see more throughly about the inners of the macro
 
-        int vx=px-x1+100;
-        int vy= py-y1+100;
+        float vx=px-x1+100;
+        float vy= py-y1+100;
 
         // This is a sort of inelegant code: we need to translate the position
         // given in the macro's coordinate system.
@@ -477,7 +477,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
         } else {
             SelectionActions sa = new SelectionActions(macro);
             EditorActions edt=new EditorActions(macro, sa, null);
-            return Math.min(edt.distancePrimitive(vx, vy), dt);
+            return Math.min(edt.distancePrimitive(
+                Math.round(vx), Math.round(vy)), Math.round(dt));
         }
         return Integer.MAX_VALUE;
     }
@@ -679,8 +680,8 @@ public final class PrimitiveMacro extends GraphicPrimitive
         /* in the macro primitive, the virtual point represents
            the position of the reference point of the macro to be drawn. */
 
-        int x1=virtualPoint[0].x;
-        int y1=virtualPoint[0].y;
+        float x1=virtualPoint[0].x;
+        float y1=virtualPoint[0].y;
 
         MapCoordinates macroCoord=new MapCoordinates();
 

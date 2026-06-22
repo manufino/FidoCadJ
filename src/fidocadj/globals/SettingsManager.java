@@ -35,7 +35,7 @@ import java.util.prefs.Preferences;
  along with FidoCadJ. If not,
  @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
- Copyright 2007-2024 by Davide Bucci, Manuel Finessi
+ Copyright 2007-2026 by Davide Bucci, Manuel Finessi
  </pre>
 
  */

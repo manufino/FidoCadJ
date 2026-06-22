@@ -20,15 +20,15 @@ package fidocadj.graphic;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2015 by Davide Bucci
+    Copyright 2014-2026 by Davide Bucci
 </pre>
 */
 public class RectangleG
 {
-    public int x;
-    public int y;
-    public int height;
-    public int width;
+    public float x;
+    public float y;
+    public float height;
+    public float width;
 
     /** Standard constructor of the rectangle.
         @param x the x coordinates of the leftmost side.
@@ -36,7 +36,7 @@ public class RectangleG
         @param width the width of the rectangle.
         @param height the height of the rectangle.
     */
-    public RectangleG(int x, int y, int width, int height)
+    public RectangleG(float x, float y, float width, float height)
     {
         this.x=x;
         this.y=y;
@@ -60,7 +60,7 @@ public class RectangleG
      *
      * @return the x-coordinate of the rectangle
      */
-    public int getX()
+    public float getX()
     {
         return x;
     }
@@ -70,7 +70,7 @@ public class RectangleG
      *
      * @return the y-coordinate of the rectangle
      */
-    public int getY()
+    public float getY()
     {
         return y;
     }
@@ -80,7 +80,7 @@ public class RectangleG
      *
      * @return the width of the rectangle
      */
-    public int getWidth()
+    public float getWidth()
     {
         return width;
     }
@@ -90,7 +90,7 @@ public class RectangleG
      *
      * @return the height of the rectangle
      */
-    public int getHeight()
+    public float getHeight()
     {
         return height;
     }
@@ -103,7 +103,7 @@ public class RectangleG
      *
      * @return true if the point is within the rectangle, false otherwise
      */
-    public boolean contains(int px, int py)
+    public boolean contains(float px, float py)
     {
         return px >= x && px <= x + width && py >= y && py <= y + height;
     }
@@ -134,7 +134,7 @@ public class RectangleG
      *
      * @return true if the line intersects the rectangle, false otherwise
      */
-    public boolean intersectsLine(int x1, int y1, int x2, int y2)
+    public boolean intersectsLine(float x1, float y1, float x2, float y2)
     {
         // Check if the line intersects any of the four edges of the rectangle
         return lineIntersectsLine(x1, y1, x2, y2,
@@ -165,14 +165,14 @@ public class RectangleG
      *
      * @return true if the two line segments intersect, false otherwise
      */
-    private boolean lineIntersectsLine(int x1, int y1, int x2, int y2,
-            int x3, int y3, int x4, int y4)
+    private boolean lineIntersectsLine(float x1, float y1, float x2, float y2,
+            float x3, float y3, float x4, float y4)
     {
         // Calculate the direction of the lines
-        int d1 = direction(x3, y3, x4, y4, x1, y1);
-        int d2 = direction(x3, y3, x4, y4, x2, y2);
-        int d3 = direction(x1, y1, x2, y2, x3, y3);
-        int d4 = direction(x1, y1, x2, y2, x4, y4);
+        float d1 = direction(x3, y3, x4, y4, x1, y1);
+        float d2 = direction(x3, y3, x4, y4, x2, y2);
+        float d3 = direction(x1, y1, x2, y2, x3, y3);
+        float d4 = direction(x1, y1, x2, y2, x4, y4);
 
         // If the directions are different, the lines intersect
         if (d1 != d2 && d3 != d4) {
@@ -209,9 +209,10 @@ public class RectangleG
      *
      * @return 0 if collinear, 1 if clockwise, 2 if counterclockwise
      */
-    private int direction(int px, int py, int qx, int qy, int rx, int ry)
+    private int direction(float px, float py, float qx, float qy, 
+        float rx, float ry)
     {
-        int val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);
+        float val = (qy - py) * (rx - qx) - (qx - px) * (ry - qy);
         if (val == 0) {
             return 0; // collinear
         } else {
@@ -236,7 +237,8 @@ public class RectangleG
      *
      * @return true if the point lies on the segment, false otherwise
      */
-    private boolean onSegment(int px, int py, int qx, int qy, int rx, int ry)
+    private boolean onSegment(float px, float py, float qx, float qy,
+        float rx, float ry)
     {
         return rx >= Math.min(px, qx) && rx <= Math.max(px, qx)
                 && ry >= Math.min(py, qy) && ry <= Math.max(py, qy);

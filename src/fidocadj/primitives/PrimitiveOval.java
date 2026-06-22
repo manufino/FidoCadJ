@@ -32,7 +32,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -75,7 +75,7 @@ public final class PrimitiveOval extends GraphicPrimitive
      @param f the name of the font for attached text.
      @param size the size of the font for attached text.
      */
-    public PrimitiveOval(String f, int size)
+    public PrimitiveOval(String f, float size)
     {
         super();
         isFilled = false;
@@ -96,7 +96,7 @@ public final class PrimitiveOval extends GraphicPrimitive
      @param size the size of the font for attached text.
      */
     public PrimitiveOval(int x1, int y1, int x2, int y2, boolean f, int layer,
-            int dashSt, String font, int size)
+            int dashSt, String font, float size)
     {
         super();
         initPrimitive(-1, font, size);
@@ -210,10 +210,10 @@ public final class PrimitiveOval extends GraphicPrimitive
             if (nn < 5) {
                 throw new IOException("Bad arguments on EV/EP");
             }
-            int x1 = virtualPoint[0].x = Integer.parseInt(tokens[1]);
-            int y1 = virtualPoint[0].y = Integer.parseInt(tokens[2]);
-            virtualPoint[1].x = Integer.parseInt(tokens[3]);
-            virtualPoint[1].y = Integer.parseInt(tokens[4]);
+            float x1 = virtualPoint[0].x = Float.parseFloat(tokens[1]);
+            float y1 = virtualPoint[0].y = Float.parseFloat(tokens[2]);
+            virtualPoint[1].x = Float.parseFloat(tokens[3]);
+            virtualPoint[1].y = Float.parseFloat(tokens[4]);
 
             virtualPoint[getNameVirtualPointNumber()].x = x1 + 5;
             virtualPoint[getNameVirtualPointNumber()].y = y1 + 5;
@@ -323,10 +323,10 @@ public final class PrimitiveOval extends GraphicPrimitive
             return 0;
         }
 
-        int xa = Math.min(virtualPoint[0].x, virtualPoint[1].x);
-        int ya = Math.min(virtualPoint[0].y, virtualPoint[1].y);
-        int xb = Math.max(virtualPoint[0].x, virtualPoint[1].x);
-        int yb = Math.max(virtualPoint[0].y, virtualPoint[1].y);
+        float xa = Math.min(virtualPoint[0].x, virtualPoint[1].x);
+        float ya = Math.min(virtualPoint[0].y, virtualPoint[1].y);
+        float xb = Math.max(virtualPoint[0].x, virtualPoint[1].x);
+        float yb = Math.max(virtualPoint[0].y, virtualPoint[1].y);
 
         if (isFilled) {
             if (GeometricDistances.pointInEllipse(xa, ya, xb - xa, yb - ya, px,
@@ -337,8 +337,8 @@ public final class PrimitiveOval extends GraphicPrimitive
                 return 1000;
             }
         } else {
-            return GeometricDistances.pointToEllipse(xa, ya,
-                    xb - xa, yb - ya, px, py);
+            return (int)Math.round(GeometricDistances.pointToEllipse(xa, ya,
+                    xb - xa, yb - ya, px, py));
         }
     }
 
@@ -447,10 +447,10 @@ public final class PrimitiveOval extends GraphicPrimitive
             return false;
         }
 
-        int x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
-        int y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
-        int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
-        int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
+        float x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
+        float y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
+        float x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
+        float y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
 
         if (isLeftToRightSelection) {
             return rect.contains(x1, y1) && rect.contains(x2, y1)
@@ -459,10 +459,10 @@ public final class PrimitiveOval extends GraphicPrimitive
 
         RectangleG ovalBounds = new RectangleG(x1, y1, x2 - x1, y2 - y1);
         if (rect.intersects(ovalBounds)) {
-            int centerX = (x1 + x2) / 2;
-            int centerY = (y1 + y2) / 2;
-            int a = (x2 - x1) / 2;
-            int b = (y2 - y1) / 2;
+            float centerX = (x1 + x2) / 2;
+            float centerY = (y1 + y2) / 2;
+            float a = (x2 - x1) / 2;
+            float b = (y2 - y1) / 2;
 
             double step = 0.1;
             for (double i = rect.getX(); i <= rect.getX()

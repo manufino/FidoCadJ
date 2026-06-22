@@ -34,7 +34,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -54,10 +54,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
     private ShapeInterface shape1;
     private float w;
 
-    private int xmin;
-    private int ymin;
-    private int width;
-    private int height;
+    private float xmin;
+    private float ymin;
+    private float width;
+    private float height;
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive
@@ -71,7 +71,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveBezier(String f, int size)
+    public PrimitiveBezier(String f, float size)
     {
         super();
         arrowData=new Arrow();
@@ -101,7 +101,7 @@ public final class PrimitiveBezier extends GraphicPrimitive
                          int x3, int y3, int x4, int y4,
                             int layer, boolean arrowS, boolean arrowE,
                             int arrowSt, int arrowLe, int arrowWi, int dashSt,
-                            String font, int size)
+                            String font, float size)
     {
         super();
 
@@ -240,14 +240,14 @@ public final class PrimitiveBezier extends GraphicPrimitive
             shape1=g.createShape();
             // Create the Bézier curve
             shape1.createCubicCurve(
-                p0.x,
-                p0.y,
+                Math.round(p0.x),
+                Math.round(p0.y),
                 coordSys.mapX(virtualPoint[1].x,virtualPoint[1].y),
                 coordSys.mapY(virtualPoint[1].x,virtualPoint[1].y),
                 coordSys.mapX(virtualPoint[2].x,virtualPoint[2].y),
                 coordSys.mapY(virtualPoint[2].x,virtualPoint[2].y),
-                p3.x,
-                p3.y);
+                Math.round(p3.x),
+                Math.round(p3.y));
 
 
 
@@ -261,7 +261,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
         }
 
         // If the curve is not visible, exit immediately
-        if(!g.hitClip(xmin,ymin, width+1, height+1)) {
+        if(!g.hitClip(Math.round(xmin),Math.round(ymin), 
+            Math.round(width+1), Math.round(height+1))) {
             return;
         }
 
@@ -291,10 +292,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
     private PointG drawArrow(GraphicsInterface g, MapCoordinates coordSys,
         int aa, int bb, int cc, int dd)
     {
-        int psx;
-        int psy; // starting coordinates.
-        int pex;
-        int pey; // ending coordinates.
+        float psx;
+        float psy; // starting coordinates.
+        float pex;
+        float pey; // ending coordinates.
 
         // We must check if the cubic curve is degenerate. In this case,
         // the correct arrow orientation will be determined by successive
@@ -345,14 +346,14 @@ public final class PrimitiveBezier extends GraphicPrimitive
                 throw new IOException("Bad arguments on BE");
             }
             // Parse the coordinates of all points of the Bézier curve
-            int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
-            virtualPoint[1].x=Integer.parseInt(tokens[3]);
-            virtualPoint[1].y=Integer.parseInt(tokens[4]);
-            virtualPoint[2].x=Integer.parseInt(tokens[5]);
-            virtualPoint[2].y=Integer.parseInt(tokens[6]);
-            virtualPoint[3].x=Integer.parseInt(tokens[7]);
-            virtualPoint[3].y=Integer.parseInt(tokens[8]);
+            float x1 = virtualPoint[0].x=Float.parseFloat(tokens[1]);
+            float y1 = virtualPoint[0].y=Float.parseFloat(tokens[2]);
+            virtualPoint[1].x=Float.parseFloat(tokens[3]);
+            virtualPoint[1].y=Float.parseFloat(tokens[4]);
+            virtualPoint[2].x=Float.parseFloat(tokens[5]);
+            virtualPoint[2].y=Float.parseFloat(tokens[6]);
+            virtualPoint[3].x=Float.parseFloat(tokens[7]);
+            virtualPoint[3].y=Float.parseFloat(tokens[8]);
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
             virtualPoint[getValueVirtualPointNumber()].x=x1+5;
@@ -398,24 +399,32 @@ public final class PrimitiveBezier extends GraphicPrimitive
             if (arrowData.isArrowStart()) {
                 if(arrowData.getArrowLength()>0) {
                     t=arrowData.isInArrow(px, py,
-                        virtualPoint[0].x, virtualPoint[0].y,
-                        virtualPoint[1].x, virtualPoint[1].y, p0);
+                        Math.round(virtualPoint[0].x), 
+                        Math.round(virtualPoint[0].y),
+                        Math.round(virtualPoint[1].x),
+                        Math.round(virtualPoint[1].y), p0);
                 } else {
                     t=arrowData.isInArrow(px, py,
-                        virtualPoint[0].x, virtualPoint[0].y,
-                        virtualPoint[1].x, virtualPoint[1].y, null);
+                        Math.round(virtualPoint[0].x),
+                        Math.round(virtualPoint[0].y),
+                        Math.round(virtualPoint[1].x),
+                        Math.round(virtualPoint[1].y), null);
                 }
             }
 
             if (arrowData.isArrowEnd()) {
                 if(arrowData.getArrowLength()>0) {
                     r=arrowData.isInArrow(px, py,
-                        virtualPoint[3].x, virtualPoint[3].y,
-                        virtualPoint[2].x, virtualPoint[2].y, p3);
+                        Math.round(virtualPoint[3].x),
+                        Math.round(virtualPoint[3].y),
+                        Math.round(virtualPoint[2].x),
+                        Math.round(virtualPoint[2].y), p3);
                 } else {
                     r=arrowData.isInArrow(px, py,
-                        virtualPoint[3].x, virtualPoint[3].y,
-                        virtualPoint[2].x, virtualPoint[2].y, null);
+                        Math.round(virtualPoint[3].x),
+                        Math.round(virtualPoint[3].y),
+                        Math.round(virtualPoint[2].x),
+                        Math.round(virtualPoint[2].y), null);
                 }
             }
 
@@ -427,10 +436,11 @@ public final class PrimitiveBezier extends GraphicPrimitive
 
         // If not, we check for the distance to the Bézier curve.
         return GeometricDistances.pointToBezier(
-                p0.x, p0.y,
-                virtualPoint[1].x, virtualPoint[1].y,
-                virtualPoint[2].x, virtualPoint[2].y,
-                p3.x, p3.y, px,  py);
+                Math.round(p0.x), Math.round(p0.y),
+                Math.round(virtualPoint[1].x), Math.round(virtualPoint[1].y),
+                Math.round(virtualPoint[2].x), Math.round(virtualPoint[2].y),
+                Math.round(p3.x), Math.round(p3.y),
+                Math.round(px), Math.round(py));
     }
 
     /** Obtain a string command descripion of the primitive.
@@ -542,7 +552,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
         // Check if any vertex of the Bézier curve is within ..
         // the selection rectangle
         for (int i = 0; i < 4; i++) {
-            if (rect.contains(virtualPoint[i].x, virtualPoint[i].y)) {
+            if (rect.contains(
+                    Math.round(virtualPoint[i].x),
+                    Math.round(virtualPoint[i].y))) 
+            {
                 return true;
             }
         }

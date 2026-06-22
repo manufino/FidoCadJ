@@ -35,7 +35,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2011-2023 by Davide Bucci
+    Copyright 2011-2026 by Davide Bucci
 
     Spline calculations by Tim Lambert
     http://www.cse.unsw.edu.au/~lambert/splines/
@@ -100,7 +100,7 @@ public final class PrimitiveComplexCurve
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveComplexCurve(String f, int size)
+    public PrimitiveComplexCurve(String f, float size)
     {
         super();
         arrowData=new Arrow();
@@ -127,7 +127,7 @@ public final class PrimitiveComplexCurve
     public PrimitiveComplexCurve(boolean f, boolean c, int layer,
         boolean arrowS, boolean arrowE,
         int arrowSt, int arrowLe, int arrowWi, int dashSt,
-        String font, int size)
+        String font, float size)
     {
         super();
 
@@ -154,8 +154,8 @@ public final class PrimitiveComplexCurve
     */
     public void addPointClosest(int px, int py)
     {
-        int[] xp=new int[storageSize];
-        int[] yp=new int[storageSize];
+        float[] xp=new float[storageSize];
+        float[] yp=new float[storageSize];
 
         int k;
 
@@ -210,7 +210,7 @@ public final class PrimitiveComplexCurve
         @param x the x coordinate of the point.
         @param y the y coordinate of the point.
     */
-    public void addPoint(int x, int y)
+    public void addPoint(float x, float y)
     {
         if(nPoints+2>=storageSize) {
             int oN=storageSize;
@@ -707,8 +707,8 @@ public final class PrimitiveComplexCurve
             // current primitive.
             int j=1;
             int i=0;
-            int x1 = 0;
-            int y1 = 0;
+            float x1 = 0;
+            float y1 = 0;
 
             // The first token says if the spline is opened or closed
             if("1".equals(tokens[j])) {
@@ -723,13 +723,13 @@ public final class PrimitiveComplexCurve
                 if (j+1<nn-1 && "FCJ".equals(tokens[j+1])) {
                     break;
                 }
-                x1 =Integer.parseInt(tokens[j++]);
+                x1 =Float.parseFloat(tokens[j++]);
 
                 // Check if the following point is available
                 if(j>=nn-1) {
                     throw new IOException("bad arguments on CP/CV");
                 }
-                y1 =Integer.parseInt(tokens[j++]);
+                y1 =Float.parseFloat(tokens[j++]);
                 ++i;
                 addPoint(x1,y1);
             }
@@ -871,8 +871,9 @@ public final class PrimitiveComplexCurve
         // In this case, the user has not introduced a complete curve,
         // but just one point.
         if(p==null) {
-            return GeometricDistances.pointToPoint(virtualPoint[0].x,
-                virtualPoint[0].y,
+            return GeometricDistances.pointToPoint(
+                Math.round(virtualPoint[0].x),
+                Math.round(virtualPoint[0].y),
                 px,py);
         }
 
@@ -900,13 +901,16 @@ public final class PrimitiveComplexCurve
             arrowData.prepareCoordinateMapping(m);
             if (arrowData.isArrowStart()) {
                 t=arrowData.isInArrow(px, py,
-                    virtualPoint[0].x, virtualPoint[0].y,
+                    Math.round(virtualPoint[0].x), 
+                    Math.round(virtualPoint[0].y),
                     xpoints[0], ypoints[0], null);
             }
             if (arrowData.isArrowEnd()) {
                 r=arrowData.isInArrow(px, py,
-                    xpoints[q.getNpoints()-1], ypoints[q.getNpoints()-1],
-                    virtualPoint[nPoints-1].x, virtualPoint[nPoints-1].y,
+                    Math.round(xpoints[q.getNpoints()-1]),
+                    Math.round(ypoints[q.getNpoints()-1]),
+                    Math.round(virtualPoint[nPoints-1].x),
+                    Math.round(virtualPoint[nPoints-1].y),
                     null);
             }
 

@@ -30,7 +30,7 @@ import fidocadj.primitives.PrimitiveMacro;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2023 by Davide Bucci
+    Copyright 2014-2026 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -86,8 +86,8 @@ public class EditorActions
             return;
         }
 
-        final int ix = g.getFirstPoint().x;
-        final int iy = g.getFirstPoint().y;
+        final float ix = g.getFirstPoint().x;
+        final float iy = g.getFirstPoint().y;
 
         selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
@@ -126,7 +126,7 @@ public class EditorActions
             return;
         }
 
-        final int ix = g.getFirstPoint().x;
+        final float ix = g.getFirstPoint().x;
 
         selectionActions.applyToSelectedElements(new ProcessElementsInterface(){
             public void doAction(GraphicPrimitive g)
@@ -321,10 +321,10 @@ public class EditorActions
     public void alignLeftSelected()
     {
         // Find the leftmost x coordinate among selected primitives
-        int leftmost = Integer.MAX_VALUE;
+        float leftmost = Integer.MAX_VALUE;
         for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
-                int x = g.getPosition().x;
+                float x = g.getPosition().x;
                 if (x < leftmost) {
                     leftmost = x;
                 }
@@ -332,12 +332,12 @@ public class EditorActions
         }
 
         // Move all selected primitives to the leftmost x coordinate
-        final int finalLeftmost = leftmost;
+        final float finalLeftmost = leftmost;
         selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
-                int dx = finalLeftmost - g.getPosition().x;
+                float dx = finalLeftmost - g.getPosition().x;
                 g.movePrimitive(dx, 0);
             }
         });
@@ -356,10 +356,10 @@ public class EditorActions
     public void alignRightSelected()
     {
         // Find the rightmost x coordinate among selected primitives
-        int rightmost = Integer.MIN_VALUE;
+        float rightmost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
-                int x = g.getPosition().x + g.getSize().width;
+                float x = g.getPosition().x + g.getSize().width;
                 if (x > rightmost) {
                     rightmost = x;
                 }
@@ -367,12 +367,12 @@ public class EditorActions
         }
 
         // Move all selected primitives to the rightmost x coordinate
-        final int finalRightmost = rightmost;
+        final float finalRightmost = rightmost;
         selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
-                int dx = finalRightmost -
+                float dx = finalRightmost -
                         (g.getPosition().x + g.getSize().width);
                 g.movePrimitive(dx, 0);
             }
@@ -392,10 +392,10 @@ public class EditorActions
     public void alignTopSelected()
     {
         // Find the topmost y coordinate among selected primitives
-        int topmost = Integer.MAX_VALUE;
+        float topmost = Integer.MAX_VALUE;
         for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
-                int y = g.getPosition().y;
+                float y = g.getPosition().y;
                 if (y < topmost) {
                     topmost = y;
                 }
@@ -403,12 +403,12 @@ public class EditorActions
         }
 
         // Move all selected primitives to the topmost y coordinate
-        final int finalTopmost = topmost;
+        final float finalTopmost = topmost;
         selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
-                int dy = finalTopmost - g.getPosition().y;
+                float dy = finalTopmost - g.getPosition().y;
                 g.movePrimitive(0, dy);
             }
         });
@@ -427,10 +427,10 @@ public class EditorActions
     public void alignBottomSelected()
     {
         // Find the bottommost y coordinate among selected primitives
-        int bottommost = Integer.MIN_VALUE;
+        float bottommost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
-                int y = g.getPosition().y + g.getSize().height;
+                float y = g.getPosition().y + g.getSize().height;
                 if (y > bottommost) {
                     bottommost = y;
                 }
@@ -438,12 +438,12 @@ public class EditorActions
         }
 
         // Move all selected primitives to the bottommost y coordinate
-        final int finalBottommost = bottommost;
+        final float finalBottommost = bottommost;
         selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
-                int dy = finalBottommost -
+                float dy = finalBottommost -
                         (g.getPosition().y + g.getSize().height);
                 g.movePrimitive(0, dy);
             }
@@ -463,12 +463,12 @@ public class EditorActions
     public void alignHorizontalCenterSelected()
     {
         // Find the minimum and maximum y coordinates among selected primitives
-        int topmost = Integer.MAX_VALUE;
-        int bottommost = Integer.MIN_VALUE;
+        float topmost = Integer.MAX_VALUE;
+        float bottommost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
-                int yTop = g.getPosition().y;
-                int yBottom = g.getPosition().y + g.getSize().height;
+                float yTop = g.getPosition().y;
+                float yBottom = g.getPosition().y + g.getSize().height;
                 if (yTop < topmost) {
                     topmost = yTop;
                 }
@@ -479,16 +479,16 @@ public class EditorActions
         }
 
         // Calculate the vertical center
-        final int verticalCenter = (topmost + bottommost) / 2;
+        final float verticalCenter = (topmost + bottommost) / 2;
 
         // Move all selected primitives to align with the vertical center
         selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
-                int currentCenterY =
+                float currentCenterY =
                         g.getPosition().y + (g.getSize().height / 2);
-                int dy = verticalCenter - currentCenterY;
+                float dy = verticalCenter - currentCenterY;
                 g.movePrimitive(0, dy);
             }
         });
@@ -507,12 +507,12 @@ public class EditorActions
     public void alignVerticalCenterSelected()
     {
         // Find the minimum and maximum x coordinates among selected primitives
-        int leftmost = Integer.MAX_VALUE;
-        int rightmost = Integer.MIN_VALUE;
+        float leftmost = Integer.MAX_VALUE;
+        float rightmost = Integer.MIN_VALUE;
         for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
             if (g.isSelected()) {
-                int xLeft = g.getPosition().x;
-                int xRight = g.getPosition().x + g.getSize().width;
+                float xLeft = g.getPosition().x;
+                float xRight = g.getPosition().x + g.getSize().width;
                 if (xLeft < leftmost) {
                     leftmost = xLeft;
                 }
@@ -523,16 +523,16 @@ public class EditorActions
         }
 
         // Calculate the horizontal center
-        final int horizontalCenter = (leftmost + rightmost) / 2;
+        final float horizontalCenter = (leftmost + rightmost) / 2;
 
         // Move all selected primitives to align with the horizontal center
         selectionActions.applyToSelectedElements(new ProcessElementsInterface()
         {
             public void doAction(GraphicPrimitive g)
             {
-                int currentCenterX =
+                float currentCenterX =
                         g.getPosition().x + (g.getSize().width / 2);
-                int dx = horizontalCenter - currentCenterX;
+                float dx = horizontalCenter - currentCenterX;
                 g.movePrimitive(dx, 0);
             }
         });
@@ -568,24 +568,24 @@ public class EditorActions
 
         // Sort primitives by their x position
         selectedPrimitives.sort(
-                Comparator.comparingInt(g -> g.getPosition().x));
+                Comparator.comparingDouble(g -> g.getPosition().x));
 
         // Calculate the total distance between ..
         // the leftmost and rightmost primitives
-        int leftmostX = selectedPrimitives.get(0).getPosition().x;
-        int rightmostX = selectedPrimitives.get(
+        float leftmostX = selectedPrimitives.get(0).getPosition().x;
+        float rightmostX = selectedPrimitives.get(
                 selectedPrimitives.size() - 1).getPosition().x;
 
-        int totalSpace = rightmostX - leftmostX;
+        float totalSpace = rightmostX - leftmostX;
 
         // Calculate the spacing between each primitive
-        int spacing = totalSpace / (selectedPrimitives.size() - 1);
+        float spacing = totalSpace / (selectedPrimitives.size() - 1);
 
         // Move the primitives to distribute them evenly
         for (int i = 1; i < selectedPrimitives.size() - 1; i++) {
-            int targetX = leftmostX + i * spacing;
+            float targetX = leftmostX + i * spacing;
             GraphicPrimitive g = selectedPrimitives.get(i);
-            int dx = targetX - g.getPosition().x;
+            float dx = targetX - g.getPosition().x;
             g.movePrimitive(dx, 0);
         }
 
@@ -620,24 +620,24 @@ public class EditorActions
 
         // Sort primitives by their y position
         selectedPrimitives.sort(
-                Comparator.comparingInt(g -> g.getPosition().y));
+                Comparator.comparingDouble(g -> g.getPosition().y));
 
         // Calculate the total distance between the topmost and bottommost
         // primitives
-        int topmostY = selectedPrimitives.get(0).getPosition().y;
-        int bottommostY = selectedPrimitives.get(
+        float topmostY = selectedPrimitives.get(0).getPosition().y;
+        float bottommostY = selectedPrimitives.get(
                 selectedPrimitives.size() - 1).getPosition().y;
 
-        int totalSpace = bottommostY - topmostY;
+        float totalSpace = bottommostY - topmostY;
 
         // Calculate the spacing between each primitive
-        int spacing = totalSpace / (selectedPrimitives.size() - 1);
+        float spacing = totalSpace / (selectedPrimitives.size() - 1);
 
         // Move the primitives to distribute them evenly
         for (int i = 1; i < selectedPrimitives.size() - 1; i++) {
-            int targetY = topmostY + i * spacing;
+            float targetY = topmostY + i * spacing;
             GraphicPrimitive g = selectedPrimitives.get(i);
-            int dy = targetY - g.getPosition().y;
+            float dy = targetY - g.getPosition().y;
             g.movePrimitive(0, dy);
         }
 

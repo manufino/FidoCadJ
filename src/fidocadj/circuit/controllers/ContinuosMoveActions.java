@@ -41,7 +41,7 @@ import fidocadj.primitives.PrimitiveMacro;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2024 by Davide Bucci
+    Copyright 2014-2026 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -406,10 +406,10 @@ public class ContinuosMoveActions extends ElementsEdtActions
         originalPositions = new HashMap<>();
 
         // Calculate bounds of all selected primitives to find center
-        int minX = Integer.MAX_VALUE;
-        int minY = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int maxY = Integer.MIN_VALUE;
+        float minX = Float.MAX_VALUE;
+        float minY = Float.MAX_VALUE;
+        float maxX = Float.MIN_VALUE;
+        float maxY = Float.MIN_VALUE;
 
         // Save original positions and find bounds
         for (GraphicPrimitive g : dmp.getPrimitiveVector()) {
@@ -419,8 +419,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
                     g.getFirstPoint().y));
 
                 // Update bounds
-                int x = g.getFirstPoint().x;
-                int y = g.getFirstPoint().y;
+                float x = g.getFirstPoint().x;
+                float y = g.getFirstPoint().y;
                 if (x < minX) minX = x;
                 if (x > maxX) maxX = x;
                 if (y < minY) minY = y;
@@ -429,8 +429,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
         }
 
         // Calculate center of selection
-        int centerX = (minX + maxX) / 2;
-        int centerY = (minY + maxY) / 2;
+        float centerX = (minX + maxX) / 2;
+        float centerY = (minY + maxY) / 2;
 
         // IMPORTANT: Snap the center to the grid!
         // This ensures that when we calculate offsets, everything stays aligned
@@ -471,12 +471,12 @@ public class ContinuosMoveActions extends ElementsEdtActions
             PointG originalPos = entry.getValue();
 
             // Calculate new position: original position + offset from center
-            int newX = originalPos.x + dx;
-            int newY = originalPos.y + dy;
+            float newX = originalPos.x + dx;
+            float newY = originalPos.y + dy;
 
             // Move to new position (relative to current position)
-            int currentX = g.getFirstPoint().x;
-            int currentY = g.getFirstPoint().y;
+            float currentX = g.getFirstPoint().x;
+            float currentY = g.getFirstPoint().y;
             g.movePrimitive(newX - currentX, newY - currentY);
         }
     }
@@ -512,8 +512,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
             PointG originalPos = entry.getValue();
 
             // Move back to original position
-            int currentX = g.getFirstPoint().x;
-            int currentY = g.getFirstPoint().y;
+            float currentX = g.getFirstPoint().x;
+            float currentY = g.getFirstPoint().y;
             g.movePrimitive(originalPos.x - currentX, originalPos.y - currentY);
         }
 

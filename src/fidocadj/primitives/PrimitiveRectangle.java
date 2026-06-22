@@ -31,7 +31,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -80,7 +80,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveRectangle(String f, int size)
+    public PrimitiveRectangle(String f, float size)
     {
         super();
         isFilled=false;
@@ -100,7 +100,7 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         @param size the size of the font for attached text.
     */
     public PrimitiveRectangle(int x1, int y1, int x2, int y2, boolean f,
-                              int layer, int dashSt, String font, int size)
+                              int layer, int dashSt, String font, float size)
     {
         super();
         initPrimitive(-1, font, size);
@@ -214,8 +214,8 @@ public final class PrimitiveRectangle extends GraphicPrimitive
             if (nn<5) {
                 throw new IOException("Bad arguments on RV/RP");
             }
-            int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
+            float x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
+            float y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
             virtualPoint[1].x=Integer.parseInt(tokens[3]);
             virtualPoint[1].y=Integer.parseInt(tokens[4]);
 
@@ -319,10 +319,10 @@ public final class PrimitiveRectangle extends GraphicPrimitive
         if(checkText(px, py)) {
             return 0;
         }
-        int xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
-        int ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
-        int xb=Math.max(virtualPoint[0].x,virtualPoint[1].x);
-        int yb=Math.max(virtualPoint[0].y,virtualPoint[1].y);
+        float xa=Math.min(virtualPoint[0].x,virtualPoint[1].x);
+        float ya=Math.min(virtualPoint[0].y,virtualPoint[1].y);
+        float xb=Math.max(virtualPoint[0].x,virtualPoint[1].x);
+        float yb=Math.max(virtualPoint[0].y,virtualPoint[1].y);
 
 
         if(isFilled) {
@@ -332,7 +332,8 @@ public final class PrimitiveRectangle extends GraphicPrimitive
                 return DISTANCE_OUT;
             }
         }
-        return GeometricDistances.pointToRectangle(xa,ya, xb-xa, yb-ya,px,py);
+        return (int)Math.round(
+            GeometricDistances.pointToRectangle(xa,ya, xb-xa, yb-ya,px,py));
     }
 
     /** Obtain a string command descripion of the primitive.
@@ -435,10 +436,10 @@ public final class PrimitiveRectangle extends GraphicPrimitive
             return isFullyContained(rect);
         }
 
-        int x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
-        int y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
-        int x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
-        int y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
+        float x1 = Math.min(virtualPoint[0].x, virtualPoint[1].x);
+        float y1 = Math.min(virtualPoint[0].y, virtualPoint[1].y);
+        float x2 = Math.max(virtualPoint[0].x, virtualPoint[1].x);
+        float y2 = Math.max(virtualPoint[0].y, virtualPoint[1].y);
 
         // Check if any vertex of the rectangle is within the selection
         // rectangle

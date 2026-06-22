@@ -63,7 +63,7 @@ The class describing the main frame in which FidoCadJ runs.
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2008-2023 by Davide Bucci
+    Copyright 2008-2026 by Davide Bucci
     </pre>
 
     The FidoFrame class describes a frame which is used to trace schematics
@@ -802,7 +802,7 @@ public final class FidoFrame extends JFrame implements
 
         circuitPanel.getDrawingModel().setTextFont(SettingsManager.getString(
                 "MACRO_FONT", circuitPanel.getDrawingModel().getTextFont()),
-                SettingsManager.getInt("MACRO_SIZE",
+                (float)SettingsManager.getDouble("MACRO_SIZE",
                         circuitPanel.getDrawingModel().getTextFontSize()),
                 circuitPanel.getUndoActions());
 

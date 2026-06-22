@@ -32,7 +32,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -82,7 +82,7 @@ public final class PrimitiveLine extends GraphicPrimitive
     public PrimitiveLine(int x1, int y1, int x2, int y2, int layer,
                         boolean arrowS, boolean arrowE,
                         int arrowSt, int arrowLe, int arrowWi, int dashSt,
-                        String f, int size)
+                        String f, float size)
     {
         super();
 
@@ -113,7 +113,7 @@ public final class PrimitiveLine extends GraphicPrimitive
         @param f        the name of the font for attached text.
         @param size     the size of the font for attached text.
     */
-    public PrimitiveLine(String f, int size)
+    public PrimitiveLine(String f, float size)
     {
         super();
         arrowData=new Arrow();
@@ -250,10 +250,10 @@ public final class PrimitiveLine extends GraphicPrimitive
 
             g.applyStroke(w, dashStyle);
 
-            int xstart=x1;
-            int ystart=y1;
-            int xend=x2;
-            int yend=y2;
+            float xstart=x1;
+            float ystart=y1;
+            float xend=x2;
+            float yend=y2;
             // If needed, we draw the arrows at the extremes.
             if (arrows) {
                 arrowData.prepareCoordinateMapping(coordSys);
@@ -278,7 +278,8 @@ public final class PrimitiveLine extends GraphicPrimitive
                     }
                 }
             }
-            g.drawLine(xstart,ystart,xend,yend);
+            g.drawLine(Math.round(xstart),Math.round(ystart),
+                Math.round(xend),Math.round(yend));
         }
     }
 
@@ -306,10 +307,10 @@ public final class PrimitiveLine extends GraphicPrimitive
             // Load the points in the virtual points associated to the
             // current primitive.
 
-            int x1 = virtualPoint[0].x=Integer.parseInt(tokens[1]);
-            int y1 = virtualPoint[0].y=Integer.parseInt(tokens[2]);
-            virtualPoint[1].x=Integer.parseInt(tokens[3]);
-            virtualPoint[1].y=Integer.parseInt(tokens[4]);
+            float x1 = virtualPoint[0].x=Float.parseFloat(tokens[1]);
+            float y1 = virtualPoint[0].y=Float.parseFloat(tokens[2]);
+            virtualPoint[1].x=Float.parseFloat(tokens[3]);
+            virtualPoint[1].y=Float.parseFloat(tokens[4]);
 
             virtualPoint[getNameVirtualPointNumber()].x=x1+5;
             virtualPoint[getNameVirtualPointNumber()].y=y1+5;
@@ -357,14 +358,18 @@ public final class PrimitiveLine extends GraphicPrimitive
             PointG pp=new PointG();
             if (arrowData.isArrowStart()) {
                 t=arrowData.isInArrow(px, py,
-                    virtualPoint[0].x, virtualPoint[0].y,
-                    virtualPoint[1].x, virtualPoint[1].y, pp);
+                    Math.round(virtualPoint[0].x), 
+                    Math.round(virtualPoint[0].y),
+                    Math.round(virtualPoint[1].x),
+                    Math.round(virtualPoint[1].y), pp);
             }
 
             if (arrowData.isArrowEnd()) {
                 r=arrowData.isInArrow(px, py,
-                    virtualPoint[1].x, virtualPoint[1].y,
-                    virtualPoint[0].x, virtualPoint[0].y, pp);
+                    Math.round(virtualPoint[1].x),
+                    Math.round(virtualPoint[1].y),
+                    Math.round(virtualPoint[0].x),
+                    Math.round(virtualPoint[0].y), pp);
             }
 
             // Click on one of the arrows.
@@ -373,9 +378,11 @@ public final class PrimitiveLine extends GraphicPrimitive
             }
         }
         return GeometricDistances.pointToSegment(
-                virtualPoint[0].x,virtualPoint[0].y,
-                virtualPoint[1].x,virtualPoint[1].y,
-                px,py);
+                Math.round(virtualPoint[0].x),
+                Math.round(virtualPoint[0].y),
+                Math.round(virtualPoint[1].x),
+                Math.round(virtualPoint[1].y),
+                px, py);
     }
 
     /** Obtain a string command descripion of the primitive.
@@ -484,10 +491,10 @@ public final class PrimitiveLine extends GraphicPrimitive
             return isFullyContained(rect);
         }
 
-        int x1 = virtualPoint[0].x;
-        int y1 = virtualPoint[0].y;
-        int x2 = virtualPoint[1].x;
-        int y2 = virtualPoint[1].y;
+        float x1 = virtualPoint[0].x;
+        float y1 = virtualPoint[0].y;
+        float x2 = virtualPoint[1].x;
+        float y2 = virtualPoint[1].y;
 
         // Check if either endpoint of the line is within the selection
         // rectangle

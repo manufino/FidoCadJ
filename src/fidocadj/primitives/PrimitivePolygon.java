@@ -34,7 +34,7 @@ import fidocadj.graphic.RectangleG;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -75,7 +75,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitivePolygon(String f, int size)
+    public PrimitivePolygon(String f, float size)
     {
         super();
         isFilled=false;
@@ -92,7 +92,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param size the size of the font for attached text.
     */
     public PrimitivePolygon(boolean f, int layer, int dashSt,
-        String font, int size)
+        String font, float size)
     {
         super();
         p = null;
@@ -156,8 +156,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
     */
     public void addPointClosest(int px, int py)
     {
-        int[] xp=new int[storageSize];
-        int[] yp=new int[storageSize];
+        float[] xp=new float[storageSize];
+        float[] yp=new float[storageSize];
 
         int k;
 
@@ -169,11 +169,11 @@ public final class PrimitivePolygon extends GraphicPrimitive
         // given point and all the segments composing the polygon and we
         // take the smallest one.
 
-        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
+        float distance=(float)Math.sqrt((px-xp[0])*(px-xp[0])+
             (py-yp[0])*(py-yp[0]));
 
         int j;
-        int d;
+        float d;
         int minv=0;
         for(int i=0; i<nPoints; ++i) {
             j=i;
@@ -181,7 +181,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
                 j=-1;
             }
 
-            d=GeometricDistances.pointToSegment(xp[i],
+            d=(float)GeometricDistances.pointToSegment(xp[i],
                 yp[i], xp[j+1],
                 yp[j+1], px,py);
 
@@ -473,8 +473,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
             return 0;
         }
 
-        int[] xp=new int[storageSize];
-        int[] yp=new int[storageSize];
+        float[] xp=new float[storageSize];
+        float[] yp=new float[storageSize];
 
         int k;
 
@@ -492,11 +492,11 @@ public final class PrimitivePolygon extends GraphicPrimitive
         // given point and all the segments composing the curve and we
         // take the smallest one.
 
-        int distance=(int)Math.sqrt((px-xp[0])*(px-xp[0])+
+        double distance=Math.sqrt((px-xp[0])*(px-xp[0])+
             (py-yp[0])*(py-yp[0]));
 
         int j;
-        int d;
+        double d;
         for(int i=0; i<nPoints; ++i) {
             j=i;
             if (j==nPoints-1) {
@@ -512,7 +512,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
             }
         }
 
-        return distance;
+        return (int)Math.round(distance);
     }
 
     /** Obtain a string command descripion of the primitive.
@@ -613,8 +613,8 @@ public final class PrimitivePolygon extends GraphicPrimitive
         }
 
         // Convert the polygon's points to arrays for easy processing
-        int[] xp = new int[nPoints];
-        int[] yp = new int[nPoints];
+        float[] xp = new float[nPoints];
+        float[] yp = new float[nPoints];
 
         for (int i = 0; i < nPoints; i++) {
             xp[i] = virtualPoint[i].x;
