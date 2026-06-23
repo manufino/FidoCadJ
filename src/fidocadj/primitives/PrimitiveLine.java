@@ -79,9 +79,9 @@ public final class PrimitiveLine extends GraphicPrimitive
         @param f        the name of the font for attached text.
         @param size     the size of the font for attached text.
     */
-    public PrimitiveLine(int x1, int y1, int x2, int y2, int layer,
+    public PrimitiveLine(float x1, float y1, float x2, float y2, int layer,
                         boolean arrowS, boolean arrowE,
-                        int arrowSt, int arrowLe, int arrowWi, int dashSt,
+                        int arrowSt, float arrowLe, float arrowWi, int dashSt,
                         String f, float size)
     {
         super();
@@ -339,11 +339,11 @@ public final class PrimitiveLine extends GraphicPrimitive
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
         // Check if the point is in the arrows. Correct the starting and ending
@@ -382,7 +382,7 @@ public final class PrimitiveLine extends GraphicPrimitive
                 Math.round(virtualPoint[0].y),
                 Math.round(virtualPoint[1].x),
                 Math.round(virtualPoint[1].y),
-                px, py);
+                Math.round(px), Math.round(py));
     }
 
     /** Obtain a string command descripion of the primitive.

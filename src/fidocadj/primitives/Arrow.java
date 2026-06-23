@@ -370,20 +370,20 @@ public final class Arrow
             nothing will be stored.
         @return true if the coordinates are inside the arrow.
     */
-    public boolean isInArrow(int xs, int ys, int x, int y, int xc, int yc,
-        PointG pBase)
+    public boolean isInArrow(float xs, float ys, float x, float y, 
+        float xc, float yc, PointG pBase)
     {
         // Consider the arrow as a polygon.
-        int[] xp=new int[3];
-        int[] yp=new int[3];
+        float[] xp=new float[3];
+        float[] yp=new float[3];
 
         PointPr[] p=calculateArrowPoints(x,y,xc,yc);
         xp[0]=x;
-        xp[1]=(int)Math.round(p[1].x);
-        xp[2]=(int)Math.round(p[2].x);
+        xp[1]=(float)p[1].x;
+        xp[2]=(float)p[2].x;
         yp[0]=y;
-        yp[1]=(int)Math.round(p[1].y);
-        yp[2]=(int)Math.round(p[2].y);
+        yp[1]=(float)p[1].y;
+        yp[2]=(float)p[2].y;
 
         if(pBase!=null) {
             pBase.x=(int)Math.round(p[0].x);
@@ -392,7 +392,7 @@ public final class Arrow
         return GeometricDistances.pointInPolygon(xp,yp,3,xs,ys);
     }
 
-    private PointPr[] calculateArrowPoints(int x, int y, int xc, int yc)
+    private PointPr[] calculateArrowPoints(float x, float y, float xc, float yc)
     {
         PointPr[] p;
         // At first we need the angle giving the direction of the arrow
@@ -415,7 +415,7 @@ public final class Arrow
     }
 
 
-    private double getArrowAngle(int x, int y, int xc, int yc)
+    private double getArrowAngle(float x, float y, float xc, float yc)
     {
         double alpha;
         // a little bit of trigonometry :-)

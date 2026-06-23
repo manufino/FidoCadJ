@@ -478,8 +478,8 @@ public class CircuitPanel extends JPanel implements ChangeSelectedLayer,
             return;
         }
 
-        int xpos = mapCoordinates.unmapXnosnap(x);
-        int ypos = mapCoordinates.unmapYnosnap(y);
+        float xpos = mapCoordinates.unmapXnosnap(x);
+        float ypos = mapCoordinates.unmapYnosnap(y);
         double z = mapCoordinates.getXMagnitude();
 
         // Click+Meta reduces the zoom

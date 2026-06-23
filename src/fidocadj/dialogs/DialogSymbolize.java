@@ -48,7 +48,7 @@ import fidocadj.dialogs.controls.TextPopupMenu;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2023 Phylum2, Davide Bucci
+    Copyright 2012-2026 Phylum2, Davide Bucci
     </pre>
     @author Phylum2, Davide Bucci
 
@@ -532,7 +532,9 @@ public final class DialogSymbolize extends MinimumSizeDialog
                     key.requestFocus();
                     return;
                 }
-                Point p = new Point(200-cpanel.getLx(), 200-cpanel.getLy());
+                Point p = new Point(
+                    Math.round(200-cpanel.getLx()),
+                    Math.round(200-cpanel.getLy()));
                 MacroDesc macro = buildMacro(getMacroName().trim(),
                     key.getText().trim(),getLibraryName().trim(),
                     getGroup().trim(), getPrefix().trim(),p);

@@ -111,7 +111,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param tolerance    the tolerance
 
     */
-    public void removePoint(int x, int y, double tolerance)
+    public void removePoint(float x, float y, double tolerance)
     {
         // We can not have a polygon with less than three vertices
         if (nPoints<=3) {
@@ -154,7 +154,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param px x coordinates of the point to insert.
         @param py y coordinates of the point to insert.
     */
-    public void addPointClosest(int px, int py)
+    public void addPointClosest(float px, float py)
     {
         float[] xp=new float[storageSize];
         float[] yp=new float[storageSize];
@@ -213,7 +213,7 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param x the x coordinate of the point.
         @param y the y coordinate of the point.
     */
-    public void addPoint(int x, int y)
+    public void addPoint(float x, float y)
     {
         if(nPoints+2>=storageSize) {
             int oN=storageSize;
@@ -465,11 +465,11 @@ public final class PrimitivePolygon extends GraphicPrimitive
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
 

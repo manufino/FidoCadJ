@@ -37,7 +37,7 @@ import fidocadj.dialogs.controls.LayerComboBoxEditor;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -296,10 +296,10 @@ public final class ToolbarZoom extends JToolBar implements ActionListener,
         @param x the x value of the cursor coordinates (logical units)
         @param y the y value of the cursor coordinates (logical units)
     */
-    public void changeCoordinates(int x, int y)
+    public void changeCoordinates(float x, float y)
     {
-        int xum=x*127;
-        int yum=y*127;
+        float xum=x*127;
+        float yum=y*127;
 
         float xmm=(float)xum/1000;
         float ymm=(float)yum/1000;

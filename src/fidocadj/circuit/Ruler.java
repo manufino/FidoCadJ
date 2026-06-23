@@ -24,7 +24,7 @@ import fidocadj.globals.Globals;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2023 by Davide Bucci
+    Copyright 2015-2026 by Davide Bucci
     </pre>
 
     @author Davide Bucci
@@ -95,13 +95,13 @@ public class Ruler
 
         double length;
 
-        int xa = cs.unmapXnosnap(sx);
-        int ya = cs.unmapYnosnap(sy);
+        float xa = cs.unmapXnosnap(sx);
+        float ya = cs.unmapYnosnap(sy);
 
-        int xb = cs.unmapXnosnap(ex);
-        int yb = cs.unmapYnosnap(ey);
+        float xb = cs.unmapXnosnap(ex);
+        float yb = cs.unmapYnosnap(ey);
 
-        int x1, y1, x2, y2;
+        float x1, y1, x2, y2;
         double x, y;
 
         // Calculates the ruler length.
@@ -166,7 +166,8 @@ public class Ruler
             y1 = (int) (y - ll * Math.sin(alpha));
             y2 = (int) (y + ll * Math.sin(alpha));
 
-            g2d.drawLine(x1, y1, x2, y2);
+            g2d.drawLine(Math.round(x1), Math.round(y1),
+                Math.round(x2), Math.round(y2));
         }
 
         Font f = new Font(rulerFont, Font.PLAIN, 10);

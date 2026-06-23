@@ -27,7 +27,7 @@ import java.awt.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2012-2023 Phylum2, Davide Bucci
+    Copyright 2012-2026 Phylum2, Davide Bucci
     </pre>
     @author Phylum2, Davide Bucci
 
@@ -46,8 +46,8 @@ public final class OriginCircuitPanel extends CircuitPanel
 
     // x and y coordinates of the origin in logical units.
     // TODO: improve data encapsulation (these should be private).
-    private int xl=5;
-    private int yl=5;
+    private float xl=5;
+    private float yl=5;
 
     /** By implementing writeObject method,
     // we can prevent
@@ -86,7 +86,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     /** Get the x coordinates of the origin in logical units.
      * @return the x coordinate of the origin in logical units.
     */
-    public int getLx()
+    public float getLx()
     {
         return xl;
     }
@@ -94,7 +94,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     /** Get the y coordinates of the origin in logical units.
      * @return the y coordinate of the origin in logical units.
     */
-    public int getLy()
+    public float getLy()
     {
         return yl;
     }
@@ -102,7 +102,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     /** Set the x coordinates of the origin in logical units.
      * @param xl coordinates of the origin in logical units.
     */
-    public void setLx(int xl)
+    public void setLx(float xl)
     {
         this.xl = xl;
     }
@@ -110,7 +110,7 @@ public final class OriginCircuitPanel extends CircuitPanel
     /** Set the y coordinates of the origin in logical units.
      * @param yl coordinates of the origin in logical units.
     */
-    public void setLy(int yl)
+    public void setLy(float yl)
     {
         this.yl = yl;
     }

@@ -152,7 +152,7 @@ public final class PrimitiveComplexCurve
         @param px the x coordinate of the point to add
         @param py the y coordinate of the point to add
     */
-    public void addPointClosest(int px, int py)
+    public void addPointClosest(float px, float py)
     {
         float[] xp=new float[storageSize];
         float[] yp=new float[storageSize];
@@ -176,7 +176,7 @@ public final class PrimitiveComplexCurve
         for(int i=0; i<q.getNpoints()-1; ++i) {
             d=GeometricDistances.pointToSegment(q.getXpoints()[i],
                 q.getYpoints()[i], q.getXpoints()[i+1],
-                q.getYpoints()[i+1], px,py);
+                q.getYpoints()[i+1], Math.round(px), Math.round(py));
 
             if(d<distance) {
                 distance = d;
@@ -520,7 +520,7 @@ public final class PrimitiveComplexCurve
         @param tolerance    the tolerance
 
     */
-    public void removePoint(int x, int y, double tolerance)
+    public void removePoint(float x, float y, double tolerance)
     {
         // We can not have a spline with less than three vertices
         if (nPoints<=3) {
@@ -859,10 +859,10 @@ public final class PrimitiveComplexCurve
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // Here we check if the given point lies inside the text areas
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
 
@@ -874,12 +874,13 @@ public final class PrimitiveComplexCurve
             return GeometricDistances.pointToPoint(
                 Math.round(virtualPoint[0].x),
                 Math.round(virtualPoint[0].y),
-                px,py);
+                Math.round(px),
+                Math.round(py));
         }
 
         // If the curve is filled, we check if the given point lies inside
         // the polygon.
-        if(isFilled && q.contains(px, py)) {
+        if(isFilled && q.contains(Math.round(px), Math.round(py))) {
             return 1;
         }
 
@@ -922,7 +923,7 @@ public final class PrimitiveComplexCurve
 
         for(int i=0; i<q.getNpoints()-1; ++i) {
             int d=GeometricDistances.pointToSegment(xpoints[i], ypoints[i],
-                xpoints[i+1], ypoints[i+1], px,py);
+                xpoints[i+1], ypoints[i+1], Math.round(px),Math.round(py));
 
             if(d<distance) {
                 distance = d;

@@ -89,8 +89,8 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitivePCBPad(int x1, int y1, int wx, int wy, int radi, int st,
-        int layer, String f, float size)
+    public PrimitivePCBPad(float x1, float y1, float wx, float wy, 
+        float radi, int st, int layer, String f, float size)
     {
         super();
         initPrimitive(-1, f, size);
@@ -366,11 +366,11 @@ public final class PrimitivePCBPad extends GraphicPrimitive
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
 

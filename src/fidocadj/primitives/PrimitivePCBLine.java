@@ -88,7 +88,8 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitivePCBLine(int x1, int y1, int x2, int y2, float w, int layer,
+    public PrimitivePCBLine(float x1, float y1, float x2, float y2,
+            float w, int layer,
             String f, float size)
     {
         super();
@@ -261,20 +262,20 @@ public final class PrimitivePCBLine extends GraphicPrimitive
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
 
-        int distance=(int)(GeometricDistances.pointToSegment(
+        float distance=(float)(GeometricDistances.pointToSegment(
                 virtualPoint[0].x,virtualPoint[0].y,
                 virtualPoint[1].x,virtualPoint[1].y,
                 px,py)-width/2.0f);
 
-        return distance<0?0:distance;
+        return Math.round(distance<0?0:distance);
     }
 
     /** Obtain a string command descripion of the primitive.

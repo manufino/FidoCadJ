@@ -791,13 +791,13 @@ public final class FidoFrame extends JFrame implements
         circuitPanel.getMapCoordinates().setYGridStep(SettingsManager.getInt(
                 "GRID_SIZE", circuitPanel.getMapCoordinates().getYGridStep()));
 
-        ae.setPcbThickness(SettingsManager.getInt("PCB_LINEWIDTH",
+        ae.setPcbThickness((float)SettingsManager.getDouble("PCB_LINEWIDTH",
                 ae.getPcbThickness()));
-        ae.setPcbPadSizeX(SettingsManager.getInt("PCB_PAD_WIDTH",
+        ae.setPcbPadSizeX((float)SettingsManager.getDouble("PCB_PAD_WIDTH",
                 ae.getPcbPadSizeX()));
-        ae.setPcbPadSizeY(SettingsManager.getInt("PCB_PAD_HEIGHT",
+        ae.setPcbPadSizeY((float)SettingsManager.getDouble("PCB_PAD_HEIGHT",
                 ae.getPcbPadSizeY()));
-        ae.setPcbPadDrill(SettingsManager.getInt("PCB_PAD_DRILL",
+        ae.setPcbPadDrill((float)SettingsManager.getDouble("PCB_PAD_DRILL",
                 ae.getPcbPadDrill()));
 
         circuitPanel.getDrawingModel().setTextFont(SettingsManager.getString(

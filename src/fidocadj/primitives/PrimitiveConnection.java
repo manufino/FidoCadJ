@@ -76,7 +76,8 @@ public final class PrimitiveConnection
         @param f the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveConnection(int x, int y, int layer, String f, float size)
+    public PrimitiveConnection(float x, float y, int layer, String f, 
+        float size)
     {
         super();
 
@@ -196,18 +197,18 @@ public final class PrimitiveConnection
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
 
         // If not, we check for the distance with the connection center.
         return GeometricDistances.pointToPoint(
                 Math.round(virtualPoint[0].x), Math.round(virtualPoint[0].y),
-                px,py)-1;
+                Math.round(px), Math.round(py))-1;
     }
 
     /** Obtain a string command descripion of the primitive.

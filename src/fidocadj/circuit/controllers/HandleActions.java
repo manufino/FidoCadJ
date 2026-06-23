@@ -69,8 +69,8 @@ public class HandleActions
     private boolean hasMoved;
 
     // Other old cursor position for handle drag...
-    private int oldpx;
-    private int oldpy;
+    private float oldpx;
+    private float oldpy;
 
     private boolean isLeftToRightSelection;
 
@@ -120,8 +120,8 @@ public class HandleActions
 
         firstDrag = false;
 
-        int dx = cs.unmapXsnap(px) - oldpx;
-        int dy = cs.unmapYsnap(py) - oldpy;
+        float dx = cs.unmapXsnap(px) - oldpx;
+        float dy = cs.unmapYsnap(py) - oldpy;
 
         oldpx = cs.unmapXsnap(px);
         oldpy = cs.unmapXsnap(py);
@@ -181,8 +181,8 @@ public class HandleActions
     {
         int i;
         int isel=0;
-        int mindistance=Integer.MAX_VALUE;
-        int distance=mindistance;
+        float mindistance=Float.MAX_VALUE;
+        float distance=mindistance;
         int layer;
 
         hasMoved=false;
@@ -195,7 +195,9 @@ public class HandleActions
 
         firstDrag=true;
 
-        int sptol=Math.abs(cs.unmapXnosnap(px+tolerance)-cs.unmapXnosnap(px));
+        float sptol=
+            Math.abs(cs.unmapXnosnap(px+tolerance)-cs.unmapXnosnap(px));
+
         if (sptol<2) { sptol=2; }
 
         // Search for the closest primitive to the given point
@@ -274,10 +276,10 @@ public class HandleActions
             }*/
 
             if (handleBeingDragged == GraphicPrimitive.RECT_SELECTION) {
-                int xa = Math.min(oldpx, cs.unmapXnosnap(px));
-                int ya = Math.min(oldpy, cs.unmapYnosnap(py));
-                int xb = Math.max(oldpx, cs.unmapXnosnap(px));
-                int yb = Math.max(oldpy, cs.unmapYnosnap(py));
+                float xa = Math.min(oldpx, cs.unmapXnosnap(px));
+                float ya = Math.min(oldpy, cs.unmapYnosnap(py));
+                float xb = Math.max(oldpx, cs.unmapXnosnap(px));
+                float yb = Math.max(oldpy, cs.unmapYnosnap(py));
 
                 RectangleG selectionRect = new RectangleG(xa, ya,
                     xb - xa, yb - ya);

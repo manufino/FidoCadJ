@@ -95,8 +95,8 @@ public final class PrimitiveOval extends GraphicPrimitive
      @param font the name of the font for attached text.
      @param size the size of the font for attached text.
      */
-    public PrimitiveOval(int x1, int y1, int x2, int y2, boolean f, int layer,
-            int dashSt, String font, float size)
+    public PrimitiveOval(float x1, float y1, float x2, float y2, boolean f,
+            int layer, int dashSt, String font, float size)
     {
         super();
         initPrimitive(-1, font, size);
@@ -315,11 +315,11 @@ public final class PrimitiveOval extends GraphicPrimitive
      @return the distance in logical units.
      */
     @Override
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // Here we check if the given point lies inside the text areas
 
-        if (checkText(px, py)) {
+        if (checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
 

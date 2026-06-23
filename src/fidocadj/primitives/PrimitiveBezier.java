@@ -97,8 +97,8 @@ public final class PrimitiveBezier extends GraphicPrimitive
         @param font the name of the font for attached text.
         @param size the size of the font for attached text.
     */
-    public PrimitiveBezier(int x1, int y1, int x2, int y2,
-                         int x3, int y3, int x4, int y4,
+    public PrimitiveBezier(float x1, float y1, float x2, float y2,
+                            float x3, float y3, float x4, float y4,
                             int layer, boolean arrowS, boolean arrowE,
                             int arrowSt, int arrowLe, int arrowWi, int dashSt,
                             String font, float size)
@@ -378,10 +378,10 @@ public final class PrimitiveBezier extends GraphicPrimitive
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // We first check if the given point lies inside the text areas.
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
         PointG p0 = new PointG(virtualPoint[0].x, virtualPoint[0].y);

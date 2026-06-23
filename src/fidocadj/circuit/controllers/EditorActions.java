@@ -233,9 +233,12 @@ public class EditorActions
 
         // Calculate a reasonable tolerance. If it is too small, we ensure
         // that it is rounded up to 2.
-        int toll= cs.unmapXnosnap(x+sel_tolerance)-cs.unmapXnosnap(x);
+        int toll=(int)Math.round(cs.unmapXnosnap(x+sel_tolerance)
+            -cs.unmapXnosnap(x));
         if (toll<2) { toll=2; }
-        selectPrimitive(cs.unmapXnosnap(x), cs.unmapYnosnap(y), toll, toggle);
+        selectPrimitive((int)Math.round(cs.unmapXnosnap(x)),
+            (int)Math.round(cs.unmapYnosnap(y)),
+            toll, toggle);
     }
 
     /** Select primitives close to the given point. Every parameter is given in

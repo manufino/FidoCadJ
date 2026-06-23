@@ -1087,7 +1087,7 @@ public abstract class GraphicPrimitive
         @param py the y coordinate of the given point.
         @return the distance to point in logical coordinates.
     */
-    public abstract int getDistanceToPoint(int px, int py);
+    public abstract int getDistanceToPoint(float px, float py);
 
     /** Gets the number of control points used.
         @return the number of points used by the primitive

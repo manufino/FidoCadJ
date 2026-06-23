@@ -128,8 +128,9 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @throws IOException if an unrecognized macro is found.
     */
     public PrimitiveMacro(Map<String, MacroDesc> lib, List<LayerDesc> l,
-         int x, int y, String keyT,
-         String na, int xa, int ya, String va, int xv, int yv, String macroF,
+         float x, float y, String keyT,
+         String na, float xa, float ya, String va, 
+         float xv, float yv, String macroF,
          float macroS, int oo, boolean mm)
         throws IOException
     {
@@ -392,7 +393,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
         @param py the y coordinate of the given point.
         @return the distance in logical units.
     */
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         /* in the macro primitive, the the first virtual point represents
            the position of the reference point of the macro to be drawn. */
@@ -403,7 +404,7 @@ public final class PrimitiveMacro extends GraphicPrimitive
 
         // Here we check if the given point lies inside the text areas
 
-        if(checkText(px, py)) {
+        if(checkText(Math.round(px), Math.round(py))) {
             return 0;
         }
 

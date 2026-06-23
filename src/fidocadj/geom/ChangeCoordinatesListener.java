@@ -34,7 +34,7 @@ public interface ChangeCoordinatesListener
         @param x the x coordinate of the mouse pointer
         @param y the y coordinate of the mouse pointer
     */
-    void changeCoordinates(int x, int y);
+    void changeCoordinates(float x, float y);
 
     /** Callback useful when some infos are to be shown.
         @param s the text to be shown (usually coordinates of the cursor).

@@ -36,7 +36,7 @@ import fidocadj.toolbars.ChangeSelectionListener;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2014-2020 by Davide Bucci
+    Copyright 2014-2026 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -57,8 +57,8 @@ public class ElementsEdtActions
     // Array used to keep track of the insertion of elements which require
     // more than one click (logical coordinates). Index begins at 1 to
     // clickNumber.
-    public int[] xpoly;
-    public int[] ypoly;
+    public float[] xpoly;
+    public float[] ypoly;
 
     // used when entering a macro
     public String macroKey;
@@ -115,8 +115,8 @@ public class ElementsEdtActions
         ae=new AddElements(dmp,ua);
         edt=e;
         sa=s;
-        xpoly = new int[NPOLY];
-        ypoly = new int[NPOLY];
+        xpoly = new float[NPOLY];
+        ypoly = new float[NPOLY];
         currentLayer=0;
 
         primEdit = null;

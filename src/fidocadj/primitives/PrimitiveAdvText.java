@@ -44,8 +44,8 @@ import fidocadj.graphic.nil.GraphicsNull;
 public final class PrimitiveAdvText extends GraphicPrimitive
 {
     private String txt;
-    private int six;
-    private int siy;
+    private float six;
+    private float siy;
     private int sty;
     private int o;
     private String fontName;
@@ -136,7 +136,8 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      * @param t the text to be used.
      * @param l the layer to be used.
      */
-    public PrimitiveAdvText(int x, int y, int sx, int sy, String fn, int or,
+    public PrimitiveAdvText(float x, float y, float sx, float sy, 
+            String fn, int or,
             int st, String t, int l) {
         this();
         virtualPoint[0] = new PointG(x, y);
@@ -399,7 +400,7 @@ public final class PrimitiveAdvText extends GraphicPrimitive
      * @return the distance in logical units.
      */
     @Override
-    public int getDistanceToPoint(int px, int py)
+    public int getDistanceToPoint(float px, float py)
     {
         // This calculation takes a lot of time, since we need to obtain the
         // size of the font used, calculate the area which is active for the

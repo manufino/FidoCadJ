@@ -22,7 +22,7 @@ import java.util.*;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2007-2023 by Davide Bucci
+    Copyright 2007-2026 by Davide Bucci
 </pre>
 
     MapCoordinates performs the coordinate mapping between the logical units
@@ -590,9 +590,9 @@ public class MapCoordinates
             (pixels).
         @return the X coordinates in logical units.
     */
-    public int unmapXnosnap(int x)
+    public float unmapXnosnap(float x)
     {
-        return (int)Math.round((x-xCenter)/xMagnitude);
+        return (float)((x-xCenter)/xMagnitude);
     }
 
     /** Un Map the Y screen coordinate given in the drawing coordinate.
@@ -600,9 +600,9 @@ public class MapCoordinates
         @param y the horizontal coordinate in the screen coordinate system.
         @return the Y coordinates in logical units.
     */
-    public int unmapYnosnap(int y)
+    public float unmapYnosnap(float y)
     {
-        return (int)Math.round((y-yCenter)/yMagnitude);
+        return (float)((y-yCenter)/yMagnitude);
     }
 
     /** Un Map the X screen coordinate given in the drawing coordinate.
@@ -610,9 +610,9 @@ public class MapCoordinates
         @param x the horizontal coordinate in the screen coordinate system.
         @return the X coordinates in logical units.
     */
-    public int unmapXsnap(int x)
+    public float unmapXsnap(float x)
     {
-        int xc=unmapXnosnap(x);
+        float xc=unmapXnosnap(x);
         // perform the snapping.
         if(snapActive) {
             xc= (int)Math.round((double)xc/xGridStep);
@@ -627,9 +627,9 @@ public class MapCoordinates
             (pixels).
         @return the Y coordinates in logical units.
     */
-    public int unmapYsnap(int y)
+    public float unmapYsnap(float y)
     {
-        int yc=unmapYnosnap(y);
+        float yc=unmapYnosnap(y);
         // perform the snapping.
         if(snapActive) {
             yc=(int)Math.round((double)yc/yGridStep);

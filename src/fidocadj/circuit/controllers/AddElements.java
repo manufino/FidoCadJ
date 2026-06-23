@@ -32,7 +32,7 @@ import fidocadj.primitives.PrimitiveLine;
     along with FidoCadJ. If not,
     @see <a href=http://www.gnu.org/licenses/>http://www.gnu.org/licenses/</a>.
 
-    Copyright 2015-2023 by Davide Bucci
+    Copyright 2015-2026 by Davide Bucci
 </pre>
 
     @author Davide Bucci
@@ -44,11 +44,11 @@ public class AddElements
     final private UndoActions ua;
 
     // Default sizes for PCB elements
-    public int pcbPadSizeX;
-    public int pcbPadSizeY;
+    public float pcbPadSizeX;
+    public float pcbPadSizeY;
     public int pcbPadStyle;
-    public int pcbPadDrill;
-    public int pcbThickness;
+    public float pcbPadDrill;
+    public float pcbThickness;
 
     /** Standard constructor.
         @param pp the drawing model object on which this controller operates.
@@ -67,7 +67,7 @@ public class AddElements
     /** Sets the default PCB pad size x.
         @param s    the wanted size in logical units.
     */
-    public void setPcbPadSizeX(int s)
+    public void setPcbPadSizeX(float s)
     {
         pcbPadSizeX=s;
     }
@@ -75,7 +75,7 @@ public class AddElements
     /** Gets the default PCB pad size x.
         @return     the x size in logical units.
     */
-    public int getPcbPadSizeX()
+    public float getPcbPadSizeX()
     {
         return pcbPadSizeX;
     }
@@ -83,7 +83,7 @@ public class AddElements
     /** Sets the default PCB pad size y.
         @param s    the wanted size in logical units.
     */
-    public void setPcbPadSizeY(int s)
+    public void setPcbPadSizeY(float s)
     {
         pcbPadSizeY=s;
     }
@@ -91,7 +91,7 @@ public class AddElements
     /** Gets the default PCB pad size y.
         @return     the size in logical units.
     */
-    public int getPcbPadSizeY()
+    public float getPcbPadSizeY()
     {
         return pcbPadSizeY;
     }
@@ -115,7 +115,7 @@ public class AddElements
     /** Sets the default PCB pad drill size.
         @param s    the wanted drill size, in logical units.
     */
-    public void setPcbPadDrill(int s)
+    public void setPcbPadDrill(float s)
     {
         pcbPadDrill=s;
     }
@@ -123,7 +123,7 @@ public class AddElements
     /** Gets the default PCB pad drill size.
         @return     the drill size, in logical units.
     */
-    public int getPcbPadDrill()
+    public float getPcbPadDrill()
     {
         return pcbPadDrill;
     }
@@ -131,7 +131,7 @@ public class AddElements
     /** Sets the default PCB track thickness.
         @param s the wanted thickness in logical units.
     */
-    public void setPcbThickness(int s)
+    public void setPcbThickness(float s)
     {
         pcbThickness=s;
     }
@@ -139,7 +139,7 @@ public class AddElements
     /** Gets the default PCB track thickness.
         @return     the track thickness in logical units.
     */
-    public int getPcbThickness()
+    public float getPcbThickness()
     {
         return pcbThickness;
     }
@@ -151,7 +151,7 @@ public class AddElements
         @param currentLayer the layer on which the primitive should
             be put.
     */
-    public void addConnection(int x, int y, int currentLayer)
+    public void addConnection(float x, float y, int currentLayer)
     {
         PrimitiveConnection g=new PrimitiveConnection(x, y, currentLayer,
             dmp.getTextFont(), dmp.getTextFontSize());
@@ -177,8 +177,8 @@ public class AddElements
         @return the new value of clickNumber.
 
     */
-    public int addLine(int x, int y, int[] xpoly,
-        int[] ypoly, int currentLayer, int clickNumber, boolean altButton)
+    public int addLine(float x, float y, float[] xpoly,
+        float[] ypoly, int currentLayer, int clickNumber, boolean altButton)
     {
         int cn=clickNumber;
 
@@ -226,7 +226,7 @@ public class AddElements
             be obtained directly from pe).
         @return the new primitive being edited.
     */
-    public GraphicPrimitive addMacro(int x, int y, SelectionActions sa,
+    public GraphicPrimitive addMacro(float x, float y, SelectionActions sa,
         GraphicPrimitive pe, String macroKey)
     {
         GraphicPrimitive primEdit=pe;
@@ -276,12 +276,12 @@ public class AddElements
         @param isCircle if true, force the ellipse to be a circle
         @return the new value of clickNumber.
     */
-    public int addEllipse(int x, int ty,
-        int xpoly[], int ypoly[], int currentLayer,
+    public int addEllipse(float x, float ty,
+        float xpoly[], float ypoly[], int currentLayer,
         int clickNumber,
         boolean isCircle)
     {
-        int y=ty;
+        float y=ty;
         int cn=clickNumber;
         if(isCircle) {
             y=ypoly[1]+x-xpoly[1];
@@ -323,8 +323,8 @@ public class AddElements
             second one, and so on...
         @return the new value of clickNumber.
     */
-    public int addBezier(int x, int y, int xpoly[],
-        int ypoly[], int currentLayer, int clickNumber)
+    public int addBezier(float x, float y, float xpoly[],
+        float ypoly[], int currentLayer, int clickNumber)
     {
         int cn=clickNumber;
 
@@ -372,11 +372,11 @@ public class AddElements
         @param isSquare force the rectangle to be a square.
         @return the new value of clickNumber.
     */
-    public int addRectangle(int x, int ty,
-        int xpoly[], int ypoly[], int currentLayer,
+    public int addRectangle(float x, float ty,
+        float xpoly[], float ypoly[], int currentLayer,
         int clickNumber, boolean isSquare)
     {
-        int y=ty;
+        float y=ty;
         int cn=clickNumber;
         if(isSquare) {
             y=ypoly[1]+x-xpoly[1];
@@ -421,8 +421,8 @@ public class AddElements
         @param thickness the thickness of the PCB line.
         @return the new value of clickNumber.
     */
-    public int addPCBLine(int x, int y,
-        int xpoly[], int ypoly[], int currentLayer,
+    public int addPCBLine(float x, float y,
+        float xpoly[], float ypoly[], int currentLayer,
         int clickNumber, boolean altButton,
         float thickness)
     {
@@ -465,7 +465,7 @@ public class AddElements
         @param y coordinate of the click (logical).
         @param currentLayer the layer on which the primitive should be put.
     */
-    public void addPCBPad(int x, int y, int currentLayer)
+    public void addPCBPad(float x, float y, int currentLayer)
     {
         final PrimitivePCBPad g=new PrimitivePCBPad(x, y,
                                   pcbPadSizeX,

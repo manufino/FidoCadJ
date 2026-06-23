@@ -52,15 +52,15 @@ public class ContinuosMoveActions extends ElementsEdtActions
     // A coordinates listener
     private ChangeCoordinatesListener coordinatesListener=null;
 
-    private int oldx;
-    private int oldy;
+    private float oldx;
+    private float oldy;
 
     // Variables for moving selected primitives with Move command
     private boolean isMovingSelected = false;
     private Map<GraphicPrimitive, PointG> originalPositions;
     // Center point of all selected primitives (only for Move command)
-    private int selectionCenterX;
-    private int selectionCenterY;
+    private float selectionCenterX;
+    private float selectionCenterY;
 
     /** Constructor
         @param pp the DrawingModel to be associated to the controller
@@ -119,8 +119,8 @@ public class ContinuosMoveActions extends ElementsEdtActions
 
         // This transformation/antitrasformation is useful to take care
         // of the snapping.
-        int x=cs.mapX(cs.unmapXsnap(xa),0);
-        int y=cs.mapY(0,cs.unmapYsnap(ya));
+        float x=cs.mapX(cs.unmapXsnap(xa),0);
+        float y=cs.mapY(0,cs.unmapYsnap(ya));
 
         // If there is anything interesting to do, leave immediately.
         if(oldx==x && oldy==y) {
@@ -347,7 +347,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
        */
         if (actionSelected == ElementsEdtActions.RECTANGLE) {
             // If control is hold, trace a square
-            int ymm;
+            float ymm;
             if(isControl&&clickNumber>0) {
                 ymm=cs.mapY(xpoly[1],ypoly[1])+x-cs.mapX(xpoly[1],ypoly[1]);
             } else {
@@ -374,7 +374,7 @@ public class ContinuosMoveActions extends ElementsEdtActions
         */
         if (actionSelected == ElementsEdtActions.ELLIPSE) {
             // If control is hold, trace a circle
-            int ymm;
+            float ymm;
             if(isControl&&clickNumber>0) {
                 ymm=cs.mapY(xpoly[1],ypoly[1])+x-cs.mapX(xpoly[1],ypoly[1]);
             } else {
@@ -454,15 +454,15 @@ public class ContinuosMoveActions extends ElementsEdtActions
         @param x current x coordinate (where the mouse is)
         @param y current y coordinate (where the mouse is)
     */
-    public void updateMovePositions(int x, int y)
+    public void updateMovePositions(float x, float y)
     {
         if (!isMovingSelected || originalPositions == null) {
             return;
         }
 
         // Calculate offset from selection center to mouse position
-        int dx = x - selectionCenterX;
-        int dy = y - selectionCenterY;
+        float dx = x - selectionCenterX;
+        float dy = y - selectionCenterY;
 
         // Move all selected primitives relative to their original positions
         for (Map.Entry<GraphicPrimitive, PointG> entry :
