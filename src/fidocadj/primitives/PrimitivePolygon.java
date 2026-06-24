@@ -355,15 +355,15 @@ public final class PrimitivePolygon extends GraphicPrimitive
             // current primitive.
             int j=1;
             int i=0;
-            int x1 = 0;
-            int y1 = 0;
+            float x1 = 0;
+            float y1 = 0;
 
             while(j<nn-1){
                 if (j+1<nn-1 && "FCJ".equals(tokens[j+1])) {
                     break;
                 }
-                x1 = Integer.parseInt(tokens[j++]);
-                y1 = Integer.parseInt(tokens[j++]);
+                x1 = (float)Float.parseFloat(tokens[j++]);
+                y1 = (float)Float.parseFloat(tokens[j++]);
                 ++i;
                 addPoint(x1,y1);
             }

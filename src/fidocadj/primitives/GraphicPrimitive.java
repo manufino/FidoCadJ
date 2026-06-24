@@ -1177,6 +1177,7 @@ public abstract class GraphicPrimitive
         the output will be done as an integer. This improves backward
         compatibility in cases where the fractional part is not needed.
         The output code is also marginally more compact.
+        The rounding is done on two digits after the decimal point.
 
         For example, roundIntelligently(1.00) produces "1" whereas
         roundIntelligently(1.23) produces "1.23".
@@ -1190,7 +1191,8 @@ public abstract class GraphicPrimitive
             int w=(int)Math.round(v);
             sb = new StringBuffer(""+w);
         } else {
-            sb = new StringBuffer(""+v);
+            long w=(long)Math.round(v*100);
+            sb = new StringBuffer(""+((float)w)/100);
         }
         return sb;
     }
