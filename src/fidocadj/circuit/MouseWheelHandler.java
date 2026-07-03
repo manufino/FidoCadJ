@@ -32,6 +32,18 @@ public class MouseWheelHandler implements KeyListener, MouseWheelListener
 {
     CircuitPanel circuitPanel;
 
+    // Accumulates fractional wheel rotation between events. Touch-based
+    // pointing devices (e.g. Magic Mouse, trackpads) report many small,
+    // sometimes noisy, precise rotation values instead of the clean +-1.0
+    // per notch a mechanical wheel gives. Requiring a full notch worth of
+    // accumulated rotation before actually changing the zoom filters out
+    // that noise and avoids the zoom jittering back and forth or running
+    // away during inertial (momentum) scrolling.
+    private double wheelAccumulator;
+
+    private static final double WHEEL_STEP_THRESHOLD = 1.0;
+    private static final double WHEEL_NOISE_DEADZONE = 0.01;
+
     /** Constructor.
         @param circuitPanel the CircuitPanel associated to the wheel events.
     */
@@ -133,8 +145,24 @@ public class MouseWheelHandler implements KeyListener, MouseWheelListener
     @Override
     public void mouseWheelMoved(MouseWheelEvent e)
     {
-        circuitPanel.changeZoomByStep(
-                e.getWheelRotation() < 0, e.getX(), e.getY(), 1.1);
+        double rotation = e.getPreciseWheelRotation();
+
+        // Ignore negligible movements: filters out the touch noise a
+        // Magic Mouse or trackpad reports even when barely grazed.
+        if (Math.abs(rotation) < WHEEL_NOISE_DEADZONE) {
+            return;
+        }
+
+        wheelAccumulator += rotation;
+
+        if (Math.abs(wheelAccumulator) < WHEEL_STEP_THRESHOLD) {
+            return;
+        }
+
+        boolean increase = wheelAccumulator < 0;
+        wheelAccumulator = 0.0;
+
+        circuitPanel.changeZoomByStep(increase, e.getX(), e.getY(), 1.1);
     }
 
     /** Cleanup method to properly remove listeners.
