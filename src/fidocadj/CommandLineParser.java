@@ -269,7 +269,7 @@ public class CommandLineParser
             "        where 'dir' is the path of the directory you want to use.\n\n"+
 
             " -c     Convert the given file to a graphical format.\n"+
-            "        Usage: -c sx sy eps|pdf|svg|png|jpg|fcd|sch outfile\n"+
+            "        Usage: -c sx sy eps|pdf|svg|dxf|png|jpg|fcd|sch outfile\n"+
             "        If you use this command line option, you *must* specify a FidoCadJ\n"+
             "        file to convert.\n"+
             "        An alternative is to specify the resolution in pixels per logical unit\n"+

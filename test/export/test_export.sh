@@ -34,6 +34,8 @@ echo "  SCR (script for CadSoft Eagle)"
 java -jar ../../jar/fidocadj.jar -n -c r2 scr scr/test_out.scr original/test_pattern.fcd >output_scr.txt
 echo "  PGF (PGF/TikZ script for LaTeX)"
 java -jar ../../jar/fidocadj.jar -n -c r1 pgf pgf/test_out.pgf original/test_pattern.fcd >output_pgf.txt
+echo "  DXF (AutoCAD Drawing Exchange Format, R12 ASCII)"
+java -jar ../../jar/fidocadj.jar -n -c r2 dxf dxf/test_out.dxf original/test_pattern.fcd >output_dxf.txt
 cd pgf
 pdflatex test_out.tex >output_latex.tex
 rm test_out.aux

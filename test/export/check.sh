@@ -38,6 +38,15 @@ else
   printf "\033[1mpgf export is not conformal to the model. Please check results_pgf.txt\033[0m\n"
 fi
 
+if diff -I "Created by FidoCadJ" dxf/test_out.dxf dxf/ref/test_out.dxf >results_dxf.txt
+then
+  echo "dxf     OK"
+  rm results_dxf.txt output_dxf.txt
+else
+  test_fail=1
+  printf "\033[1mdxf export is not conformal to the model. Please check results_dxf.txt\033[0m\n"
+fi
+
 if diff -I "# Created by" scr/test_out.scr scr/ref/test_out.scr >results_scr.txt
 then
   echo "scr     OK"

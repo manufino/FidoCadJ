@@ -54,6 +54,7 @@ public final class DialogExport extends MinimumSizeDialog
     private static final int PDF_INDEX=5;       // Combo list index: pgf format
     private static final int SCR_INDEX=6;       // idem: Eagle scr format
     private static final int PCB_INDEX=7;       // idem: gEDA pcb-rnd format
+    private static final int DXF_INDEX=8;       // idem: DXF format
 
     private static final double EPS=1E-5;   // Resolution comparison precision
 
@@ -123,6 +124,7 @@ public final class DialogExport extends MinimumSizeDialog
         fileFormat.addItem("PDF (Vector, Portable Document File)");
         fileFormat.addItem("CadSoft Eagle SCR (Script)");
         fileFormat.addItem("gEDA PCB, pcb-rnd (.pcb) file");
+        fileFormat.addItem("DXF (Vector, AutoCAD Drawing Exchange Format)");
 
         fileFormat.setSelectedIndex(0);
 
@@ -353,6 +355,8 @@ public final class DialogExport extends MinimumSizeDialog
                 return "scr";
             case PCB_INDEX:
                 return "pcb";
+            case DXF_INDEX:
+                return "dxf";
 
             default:
                 System.out.println (
@@ -489,7 +493,7 @@ public final class DialogExport extends MinimumSizeDialog
     /** Sets the default export format.
         @param s The export format. If the format string is not
             recognized (valid strings are {"png"|"jpg"|"svg"|"eps"|"pgf"|
-            "pdf"|"scr"|"pcb"}), use the png format.
+            "pdf"|"scr"|"pcb"|"dxf"}), use the png format.
     */
     public void setFormat(String s)
     {
@@ -509,6 +513,8 @@ public final class DialogExport extends MinimumSizeDialog
             fileFormat.setSelectedIndex(SCR_INDEX);
         } else if ("pcb".equals(s)) {
             fileFormat.setSelectedIndex(PCB_INDEX);
+        } else if ("dxf".equals(s)) {
+            fileFormat.setSelectedIndex(DXF_INDEX);
         } else {
             fileFormat.setSelectedIndex(PNG_INDEX);
         }

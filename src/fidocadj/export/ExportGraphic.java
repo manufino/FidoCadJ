@@ -315,6 +315,8 @@ public final class ExportGraphic
             ei=ef;
         } else if("svg".equals(format)) {
             ei = new ExportSVG(file, new GraphicsNull());
+        } else if("dxf".equals(format)) {
+            ei = new ExportDXF(file);
         } else {
             throw new IOException("Wrong file format");
         }
