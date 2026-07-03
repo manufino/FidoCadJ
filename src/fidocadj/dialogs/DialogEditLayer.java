@@ -44,6 +44,7 @@ public final class DialogEditLayer extends MinimumSizeDialog
 
     private final JColorChooser tcc;
     private final JCheckBox visibility;
+    private final JCheckBox locked;
     private final JTextField description;
     private final JSlider opacity;
     private boolean active;             // true if the user selected ok
@@ -119,9 +120,18 @@ public final class DialogEditLayer extends MinimumSizeDialog
 
         constraints = DialogUtil.createConst(2,4,1,1,100,0,
             GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
-            new Insets(0,0,20,120));
+            new Insets(0,0,0,120));
 
         contentPane.add(visibility, constraints);
+
+        locked=new JCheckBox(Globals.messages.getString("IsLocked"));
+        locked.setSelected(l.isLocked());
+
+        constraints = DialogUtil.createConst(2,5,1,1,100,0,
+            GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+            new Insets(0,0,20,120));
+
+        contentPane.add(locked, constraints);
 
         JButton ok = new JButton(Globals.messages.getString("Ok_btn"));
         JButton cancel = new JButton(Globals.messages.getString("Cancel_btn"));
@@ -142,7 +152,7 @@ public final class DialogEditLayer extends MinimumSizeDialog
             b.add(ok);
         }
 
-        constraints = DialogUtil.createConst(0,5,3,1,100,0,
+        constraints = DialogUtil.createConst(0,6,3,1,100,0,
             GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
             new Insets(0,20,20,20));
 
@@ -209,6 +219,7 @@ public final class DialogEditLayer extends MinimumSizeDialog
         // that layer will be modified.
 
         ll.setVisible(visibility.isSelected());
+        ll.setLocked(locked.isSelected());
         ll.setDescription(description.getText());
         ll.setColor(new ColorSwing(tcc.getColor()));
         ll.setAlpha(opacity.getValue()/100.0f);

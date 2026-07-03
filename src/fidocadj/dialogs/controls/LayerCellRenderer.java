@@ -42,9 +42,12 @@ public final class LayerCellRenderer extends JPanel implements
 {
     private final JLabel colorLabel;
     private final JLabel visibilityLabel;
+    private final JLabel lockLabel;
     private final JLabel nameLabel;
     private final Icon visibleIcon;
     private final Icon invisibleIcon;
+    private final Icon lockedIcon;
+    private final Icon unlockedIcon;
     private final int iconSize = 20;
 
     /**
@@ -55,13 +58,17 @@ public final class LayerCellRenderer extends JPanel implements
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         colorLabel = new JLabel();
         visibilityLabel = new JLabel();
+        lockLabel = new JLabel();
         nameLabel = new JLabel();
 
         visibleIcon = Globals.loadIcon("/icons/layer-on.png");
         invisibleIcon = Globals.loadIcon("/icons/layer-off.png");
+        lockedIcon = Globals.loadIcon("/icons/layer-locked.png");
+        unlockedIcon = Globals.loadIcon("/icons/layer-unlocked.png");
 
         add(colorLabel);
         add(visibilityLabel);
+        add(lockLabel);
         add(nameLabel);
     }
 
@@ -91,6 +98,11 @@ public final class LayerCellRenderer extends JPanel implements
                 layer.isVisible() ? visibleIcon : invisibleIcon);
 
         visibilityLabel.setPreferredSize(new Dimension(iconSize, iconSize));
+
+        lockLabel.setIcon(
+                layer.isLocked() ? lockedIcon : unlockedIcon);
+
+        lockLabel.setPreferredSize(new Dimension(iconSize, iconSize));
 
         nameLabel.setText(layer.getDescription());
 

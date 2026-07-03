@@ -207,9 +207,11 @@ public class HandleActions
             gp=(GraphicPrimitive)drawingModel.getPrimitiveVector().get(i);
             layer= gp.getLayer();
 
-            // Does not allow for selecting an invisible primitive
+            // Does not allow for selecting an invisible or locked
+            // primitive.
             if(layer<layerV.size() &&
-                !((LayerDesc)layerV.get(layer)).isVisible() &&
+                (!((LayerDesc)layerV.get(layer)).isVisible() ||
+                    ((LayerDesc)layerV.get(layer)).isLocked()) &&
                 !(gp instanceof PrimitiveMacro))
             {
                 continue;
@@ -288,8 +290,16 @@ public class HandleActions
                     selectionActions.setSelectionAll(false);
                 }
 
+                List<LayerDesc> layerV = drawingModel.getLayers();
                 for (GraphicPrimitive g : drawingModel.getPrimitiveVector()) {
-                    if (g.intersects(selectionRect, isLeftToRightSelection)) {
+                    int layer = g.getLayer();
+                    boolean selectable = layer>=layerV.size() ||
+                        (layerV.get(layer).isVisible() &&
+                            !layerV.get(layer).isLocked()) ||
+                        g instanceof PrimitiveMacro;
+                    if (selectable &&
+                        g.intersects(selectionRect, isLeftToRightSelection))
+                    {
                         g.setSelected(true);
                     }
                 }

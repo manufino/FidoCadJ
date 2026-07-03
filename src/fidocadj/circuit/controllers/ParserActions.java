@@ -242,6 +242,9 @@ public class ParserActions
                 if (!l.getDescription().equals(defaultName)) {
                     s.append("FJC N "+i+" "+l.getDescription()+"\n");
                 }
+                if (l.isLocked()) {
+                    s.append("FJC K "+i+" "+l.isLocked()+"\n");
+                }
             }
         }
         return s;
@@ -725,6 +728,14 @@ public class ParserActions
                 ll.setModified(true);
             }
 
+        } else if("K".equals(tokens[1])) {
+            // Layer locked state
+            int layerNum = Integer.parseInt(tokens[2]);
+            if (layerNum>=0&&layerNum<layerV.size()) {
+                LayerDesc ll=(LayerDesc)layerV.get(layerNum);
+                ll.setLocked(Boolean.parseBoolean(tokens[3]));
+                ll.setModified(true);
+            }
         } else if("A".equals(tokens[1])) {
             // Connection size
             newLineWidth = Double.parseDouble(tokens[2]);

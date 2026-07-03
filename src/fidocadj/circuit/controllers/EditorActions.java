@@ -160,6 +160,21 @@ public class EditorActions
         }
     }
 
+    /** Deselect every primitive lying on the given layer. Used when a
+        layer is locked, so that a primitive already selected before the
+        lock was applied does not stay editable.
+        @param layer the layer index whose primitives should be
+            deselected.
+    */
+    public void deselectLayer(int layer)
+    {
+        for (GraphicPrimitive g: drawingModel.getPrimitiveVector()) {
+            if (g.getLayer()==layer) {
+                g.setSelected(false);
+            }
+        }
+    }
+
     /** Sets the layer for all selected primitives.
         @param l the wanted layer index.
         @return true if at least a layer has been changed.
@@ -205,7 +220,9 @@ public class EditorActions
             if(distance<=mindistance) {
                 layer = g.getLayer();
 
-                if(layerV.get(layer).isVisible()) {
+                if(layerV.get(layer).isVisible() &&
+                    !layerV.get(layer).isLocked())
+                {
                     mindistance=distance;
                 }
             }
@@ -264,7 +281,10 @@ public class EditorActions
         */
         for  (GraphicPrimitive g: drawingModel.getPrimitiveVector()) {
             layer = g.getLayer();
-            if(layerV.get(layer).isVisible() || g instanceof PrimitiveMacro) {
+            if((layerV.get(layer).isVisible() &&
+                !layerV.get(layer).isLocked()) ||
+                g instanceof PrimitiveMacro)
+            {
                 distance=g.getDistanceToPoint(px,py);
                 if (distance<=mindistance) {
                     gpsel=g;
@@ -307,7 +327,8 @@ public class EditorActions
         for (GraphicPrimitive g: drawingModel.getPrimitiveVector()){
             layer= g.getLayer();
             if((layer>=layerV.size() ||
-                layerV.get(layer).isVisible() ||
+                (layerV.get(layer).isVisible() &&
+                    !layerV.get(layer).isLocked()) ||
                 g instanceof PrimitiveMacro) && g.selectRect(px,py,w,h))
             {
                 s=true;

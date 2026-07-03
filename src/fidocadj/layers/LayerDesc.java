@@ -41,6 +41,10 @@ public class LayerDesc
     // isVisible is true if the layer should be drawn:
     private boolean isVisible;
 
+    // isLocked is true if the primitives on this layer should not be
+    // selectable (and therefore not editable/movable/deletable):
+    private boolean isLocked;
+
     // is Modified is true if a redraw is needed:
     private boolean isModified;
 
@@ -104,6 +108,16 @@ public class LayerDesc
         return isVisible;
     }
 
+    /** This method returns true if the primitives on this layer should
+        not be selectable.
+
+        @return a boolean value indicating if the layer is locked
+    */
+    final public boolean isLocked()
+    {
+        return isLocked;
+    }
+
     /** This method returns true if this layer has been modified
 
         @return a boolean value indicating that the layer has been modified
@@ -139,6 +153,16 @@ public class LayerDesc
     final public void setVisible(boolean v)
     {
         isVisible=v;
+    }
+
+    /** This method allows to set whether the primitives on this layer
+        should be selectable.
+
+        @param v true if the layer should be locked (not selectable).
+    */
+    final public void setLocked(boolean v)
+    {
+        isLocked=v;
     }
 
     /** This method allows to indicate that the layer has been modified.

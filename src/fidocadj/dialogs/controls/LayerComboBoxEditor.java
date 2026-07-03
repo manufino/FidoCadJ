@@ -59,10 +59,13 @@ public final class LayerComboBoxEditor extends AbstractCellEditor implements
     private final JPanel panel;
     private JLabel colorLabel;
     private JLabel visibilityLabel;
+    private JLabel lockLabel;
     private final JLabel nameLabel;
     private LayerDesc currentLayer;
     private Icon visibleIcon;
     private Icon invisibleIcon;
+    private Icon lockedIcon;
+    private Icon unlockedIcon;
     private final FidoFrame fidoFrame;
     private CircuitPanel circuitPanel;
     private final int iconSize = 20;
@@ -82,10 +85,13 @@ public final class LayerComboBoxEditor extends AbstractCellEditor implements
         panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 4));
         colorLabel = new JLabel();
         visibilityLabel = new JLabel();
+        lockLabel = new JLabel();
         nameLabel = new JLabel();
 
         visibleIcon = Globals.loadIcon("/icons/layer-on.png");
         invisibleIcon = Globals.loadIcon("/icons/layer-off.png");
+        lockedIcon = Globals.loadIcon("/icons/layer-locked.png");
+        unlockedIcon = Globals.loadIcon("/icons/layer-unlocked.png");
 
 
         colorLabel.setCursor(
@@ -94,8 +100,14 @@ public final class LayerComboBoxEditor extends AbstractCellEditor implements
         visibilityLabel.setCursor(
                 Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
+        lockLabel.setCursor(
+                Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        lockLabel.setToolTipText(
+                Globals.messages.getString("Layer_lock_tooltip"));
+
         panel.add(colorLabel);
         panel.add(visibilityLabel);
+        panel.add(lockLabel);
         panel.add(nameLabel);
 
         panel.addMouseListener(new MouseAdapter() {
@@ -114,6 +126,31 @@ public final class LayerComboBoxEditor extends AbstractCellEditor implements
                 currentLayer.setVisible(!currentLayer.isVisible());
                 visibilityLabel.setIcon(
                         currentLayer.isVisible() ? visibleIcon:invisibleIcon);
+
+                circuitPanel.getDrawingModel().setChanged(true);
+                fidoFrame.repaint();
+            }
+        });
+
+        lockLabel.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                currentLayer.setLocked(!currentLayer.isLocked());
+                currentLayer.setModified(true);
+                lockLabel.setIcon(
+                        currentLayer.isLocked() ? lockedIcon:unlockedIcon);
+
+                // Locking a layer only affects future selections: it does
+                // not need to change what is currently drawn, but any
+                // primitive already selected on this layer should be
+                // deselected immediately so it stops being editable.
+                if (currentLayer.isLocked()) {
+                    circuitPanel.getEditorActions().deselectLayer(
+                            circuitPanel.getDrawingModel().getLayers()
+                                    .indexOf(currentLayer));
+                }
 
                 circuitPanel.getDrawingModel().setChanged(true);
                 fidoFrame.repaint();
@@ -178,6 +215,10 @@ public final class LayerComboBoxEditor extends AbstractCellEditor implements
         visibilityLabel.setIcon(
                 currentLayer.isVisible() ? visibleIcon : invisibleIcon);
         visibilityLabel.setPreferredSize(new Dimension(iconSize, iconSize));
+
+        lockLabel.setIcon(
+                currentLayer.isLocked() ? lockedIcon : unlockedIcon);
+        lockLabel.setPreferredSize(new Dimension(iconSize, iconSize));
 
         nameLabel.setText(currentLayer.getDescription());
     }

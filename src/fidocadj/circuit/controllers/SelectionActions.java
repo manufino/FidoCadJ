@@ -4,6 +4,7 @@ import java.util.*;
 
 import fidocadj.circuit.model.DrawingModel;
 import fidocadj.circuit.model.ProcessElementsInterface;
+import fidocadj.layers.LayerDesc;
 import fidocadj.primitives.GraphicPrimitive;
 import fidocadj.primitives.PrimitiveMacro;
 
@@ -84,12 +85,24 @@ public class SelectionActions
         return v;
     }
 
-    /** Select/deselect all primitives.
+    /** Select/deselect all primitives. When selecting, primitives lying
+        on a locked layer are skipped (deselecting always applies to
+        everything).
         @param state true if you want to select, false for deselect.
     */
     public void setSelectionAll(boolean state)
     {
+        List<LayerDesc> layerV = dmp.getLayers();
         for (GraphicPrimitive g: dmp.getPrimitiveVector()) {
+            if (state) {
+                int layer = g.getLayer();
+                boolean selectable = layer>=layerV.size() ||
+                    !layerV.get(layer).isLocked() ||
+                    g instanceof PrimitiveMacro;
+                if (!selectable) {
+                    continue;
+                }
+            }
             g.setSelected(state);
         }
     }
