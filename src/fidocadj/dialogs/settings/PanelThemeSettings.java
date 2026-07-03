@@ -321,7 +321,8 @@ public class PanelThemeSettings extends JPanel implements SettingsPanel
         customThemePathField.setText(
                 SettingsManager.get("CUSTOM_THEME_PATH", ""));
         boolean enableCustomThemes = SettingsManager.get("ENABLE_CUSTOM_THEMES",
-                "false").equals("true");
+                Globals.isFlatLafAvailable() ? "true" : "false")
+                .equals("true");
         enableThemesSupportCheckBox.setSelected(enableCustomThemes);
 
         boolean isCustomThemeEnabled = SettingsManager.get("PERSONALIZED_THEME",

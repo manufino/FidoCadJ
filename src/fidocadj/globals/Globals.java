@@ -474,4 +474,23 @@ public final class Globals
     {
         return "" + Math.round(n * 100.0) / 100.0;
     }
+
+    /**
+     * Check whether the FlatLaf theming library is available on the
+     * classpath at runtime. Some packaging options do not bundle it,
+     * so this is used to decide whether the theme support should be
+     * active by default.
+     *
+     * @return true if FlatLaf can be found, false otherwise.
+     */
+    public static boolean isFlatLafAvailable()
+    {
+        try {
+            Class.forName("com.formdev.flatlaf.FlatLaf", false,
+                Globals.class.getClassLoader());
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
 }

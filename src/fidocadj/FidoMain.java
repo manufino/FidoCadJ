@@ -472,7 +472,7 @@ class CreateSwingInterface implements Runnable
     {
         boolean enableThemesSupport = "true".equals(
             SettingsManager.get("ENABLE_CUSTOM_THEMES",
-                "false"));
+                Globals.isFlatLafAvailable() ? "true" : "false"));
         String theme = SettingsManager.get("THEME", "light");
         boolean isLightTheme = theme.equals("light");
         boolean isDarkTheme = theme.equals("dark");
