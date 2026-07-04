@@ -275,7 +275,7 @@ public final class FidoFrame extends JFrame implements
                 // If it does not work, try to use the standard English
                 Globals.messages = new
                 AccessResources (ResourceBundle.getBundle("MessagesBundle",
-                    Locale.of("en", "US")));
+                    Locale.forLanguageTag("en-US")));
                 System.out.println("No locale available, sorry... "+
                     "interface will be in English");
             } catch(MissingResourceException mre1) {

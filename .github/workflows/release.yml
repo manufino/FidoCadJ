@@ -1,0 +1,154 @@
+name: Portable release builds
+
+# Builds self-contained "portable" packages for Windows and Linux using
+# jpackage: each package bundles its own Java runtime (built with jlink),
+# so end users do not need to install a JDK/JRE themselves.
+#
+# Triggers:
+#  - pushing a tag matching "v*" (e.g. v0.24.8): builds and publishes a
+#    GitHub Release with the Windows/Linux archives attached.
+#  - manual run from the Actions tab (workflow_dispatch): builds the
+#    archives and uploads them as workflow artifacts, without publishing
+#    a release (useful to test the pipeline).
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version number to stamp on the packages (e.g. 0.24.8). Leave empty to read it from the makefile."
+        required: false
+        default: ""
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: windows
+          - os: ubuntu-latest
+            platform: linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17 (provides jpackage)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Determine version
+        id: ver
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF#refs/tags/v}"
+          elif [[ -n "${{ github.event.inputs.version }}" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=$(grep -m1 '^VERSION' makefile | sed -E 's/VERSION *= *//')
+          fi
+          # jpackage --app-version only accepts a dot-separated numeric
+          # string (e.g. "0.24.9"), so strip any non-numeric qualifier
+          # (e.g. "0.24.9.gamma" or "0.24.9-beta1") for that argument,
+          # while keeping the full VERSION for archive file names.
+          APP_VERSION=$(echo "$VERSION" | sed -E 's/^([0-9]+(\.[0-9]+)*).*$/\1/')
+          if [[ ! "$APP_VERSION" =~ ^[0-9]+(\.[0-9]+)*$ ]]; then
+            echo "Could not derive a numeric app-version from '$VERSION' (got '$APP_VERSION')" >&2
+            exit 1
+          fi
+          echo "Building version $VERSION (app-version: $APP_VERSION)"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "app_version=$APP_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Compile
+        shell: bash
+        run: bash dev_tools/compile
+
+      - name: Create fidocadj.jar
+        shell: bash
+        run: bash dev_tools/createjar
+
+      - name: Build Windows icon
+        if: matrix.platform == 'windows'
+        shell: bash
+        run: |
+          pip install --quiet pillow
+          python -c "from PIL import Image; im = Image.open('icons/icona_fidocadj_512x512.png'); im.save('icon.ico', sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])"
+
+      - name: Package portable app (Windows)
+        if: matrix.platform == 'windows'
+        shell: bash
+        run: |
+          jpackage --type app-image \
+            --input jar \
+            --dest dist \
+            --name FidoCadJ \
+            --main-jar fidocadj.jar \
+            --main-class fidocadj.FidoMain \
+            --app-version "${{ steps.ver.outputs.app_version }}" \
+            --icon icon.ico \
+            --vendor "FidoCadJ Team" \
+            --copyright "Davide Bucci, Manuel Finessi and many others" \
+            --description "A multiplatform vector drawing software"
+
+      - name: Package portable app (Linux)
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: |
+          jpackage --type app-image \
+            --input jar \
+            --dest dist \
+            --name FidoCadJ \
+            --main-jar fidocadj.jar \
+            --main-class fidocadj.FidoMain \
+            --app-version "${{ steps.ver.outputs.app_version }}" \
+            --icon icons/icona_fidocadj_512x512.png \
+            --vendor "FidoCadJ Team" \
+            --copyright "Davide Bucci, Manuel Finessi and many others" \
+            --description "A multiplatform vector drawing software"
+
+      - name: Archive portable package (Windows)
+        if: matrix.platform == 'windows'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path dist/FidoCadJ -DestinationPath "FidoCadJ-${{ steps.ver.outputs.version }}-windows-portable.zip"
+
+      - name: Archive portable package (Linux)
+        if: matrix.platform == 'linux'
+        shell: bash
+        run: |
+          tar czf "FidoCadJ-${{ steps.ver.outputs.version }}-linux-portable.tar.gz" -C dist FidoCadJ
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fidocadj-${{ matrix.platform }}-${{ steps.ver.outputs.version }}-portable
+          path: |
+            FidoCadJ-*-portable.zip
+            FidoCadJ-*-portable.tar.gz
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/FidoCadJ-*-portable.*
+          generate_release_notes: true

@@ -3,24 +3,32 @@
 JAVA_VERSION="16"
 JAVA_TARGET_VERSION="16"
 SOURCE_PATH="src"
-CLASS_PATH="bin:./jar/flatlaf-3.5.1.jar"
 
 JAVAC_DEBUG_OPTIONS="-g -Xlint:unchecked"
 JAVAC_JAVAV_OPTIONS="-source $JAVA_VERSION -target $JAVA_TARGET_VERSION"
-JAVAC_PATH_OPTIONS="-sourcepath $SOURCE_PATH -classpath $CLASS_PATH -d bin"
 JAVAC_OPTIMIZATION_OPTIONS="-O"
 
-JAVAC_OPTIONS="$JAVAC_PATH_OPTIONS $JAVAC_JAVAV_OPTIONS $JAVAC_OPTIMIZATION_OPTIONS"
-
-############## Darwin kernel detection ##############
+############## OS / classpath separator detection ##############
 
 unamestr=`uname`
+
+case "$unamestr" in
+    MINGW*|MSYS*|CYGWIN*)
+        CLASS_PATH="bin;./jar/flatlaf-3.5.1.jar"
+        ;;
+    *)
+        CLASS_PATH="bin:./jar/flatlaf-3.5.1.jar"
+        ;;
+esac
 
 if test "$unamestr" = 'Darwin'
 then
   echo "Copying VAqua7 library files in jar/ directory."
   cp OSes/mac/VAqua7/*.* jar
 fi
+
+JAVAC_PATH_OPTIONS="-sourcepath $SOURCE_PATH -classpath $CLASS_PATH -d bin"
+JAVAC_OPTIONS="$JAVAC_PATH_OPTIONS $JAVAC_JAVAV_OPTIONS $JAVAC_OPTIMIZATION_OPTIONS"
 
 ############## Arguments parsing ##############
 
@@ -53,12 +61,12 @@ done
 
 case $WHAT_COMPILE in
     applets)
-        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java && \
         javac $JAVAC_OPTIONS ./src/fidocadj/FidoCadApplet.java
             ;;
     all)
-        javac $JAVAC_OPTIONS ./src/fidocadj/FidoMain.java
-        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoMain.java && \
+        javac $JAVAC_OPTIONS ./src/fidocadj/FidoReadApplet.java && \
         javac $JAVAC_OPTIONS ./src/fidocadj/FidoCadApplet.java
             ;;
     FidoCadJ)
@@ -66,4 +74,4 @@ case $WHAT_COMPILE in
             ;;
 esac
 
-exit 0
+exit $?
